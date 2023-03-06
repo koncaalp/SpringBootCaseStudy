@@ -28,12 +28,8 @@ public class TeamController {
 
     @PostMapping("/create")
     public ResponseEntity<Team> createUser(@Valid @RequestBody Team team){
-//        if (team.getName() == null || team.getName().isEmpty()) {
-//           throw new MissingFieldException("name");
-//        }
-        //else {
-            return new ResponseEntity<Team>(teamService.createTeam(team.getCreatorId(), team), HttpStatus.CREATED);
-        //}
+        return new ResponseEntity<Team>(teamService.createTeam(team.getCreatorId(), team), HttpStatus.CREATED);
+
     }
     @PutMapping("/join")
     public ResponseEntity<Team> joinTeam(@RequestBody JoinTeamDto joinTeamDto){

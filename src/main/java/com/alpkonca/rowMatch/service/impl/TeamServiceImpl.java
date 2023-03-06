@@ -55,11 +55,17 @@ public class TeamServiceImpl implements  TeamService{
 
     @Override
     public Team joinTeam(int userId, int teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId));
         if (userService.isMemberOfTeam(userId)) {
             throw new RuntimeException("User is already a member of a team");
-        } else {
-            Team team = teamRepository.findById(teamId).orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId));
+        } else if (team.getMemberCount() >= configuration.getMaxTeamMemberCount())
+        {
+            throw new RuntimeException("Team is full");
+        }
+        else {
             userService.setTeam(userId, teamId);
+            team.setMemberCount(team.getMemberCount() + 1);
+            teamRepository.save(team);
             return team;
         }
     }
