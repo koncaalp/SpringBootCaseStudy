@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    NewUserDto createUser(User user);
+    NewUserDto createUser();
     ProgressDto updateLevel(int userId);
     boolean checkBalance(int userId, int requiredCoinBalance);
     boolean isMemberOfTeam(int userId);

@@ -3,6 +3,7 @@ package com.alpkonca.rowMatch.service.impl;
 import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
 import com.alpkonca.rowMatch.exception.NoResourcesFoundException;
 import com.alpkonca.rowMatch.exception.ResourceWithIdNotFoundException;
+import com.alpkonca.rowMatch.exception.UniqueFieldException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.repository.TeamRepository;
@@ -32,19 +33,23 @@ public class TeamServiceImpl implements  TeamService{
     @Override
     @Transactional
     public Team createTeam(int userId, Team team) {
-        if (userService.isMemberOfTeam(userId)) {
-            throw new RuntimeException("User is already a member of a team");
+        Team teamWithSameName = teamRepository.findByName(team.getName());
+        if (teamWithSameName != null) {
+            throw new UniqueFieldException("Team", "name", team.getName());
         } else {
-            if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {
-                Team newTeam = teamRepository.save(team);
-                userService.setTeam(userId, newTeam.getId());
-                userService.deductFromBalance(userId, configuration.getTeamCreationCost());
-                return newTeam;
+            if (userService.isMemberOfTeam(userId)) {
+                throw new RuntimeException("User is already a member of a team");
             } else {
-                throw new InsufficientBalanceException("Insufficient balance to create a team");
+                if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {
+                    Team newTeam = teamRepository.save(team);
+                    userService.setTeam(userId, newTeam.getId());
+                    userService.deductFromBalance(userId, configuration.getTeamCreationCost());
+                    return newTeam;
+                } else {
+                    throw new InsufficientBalanceException("create","team");
+                }
             }
         }
-
 
     }
 

@@ -1,4 +1,4 @@
-package com.alpkonca.rowMatch;
+package com.alpkonca.rowMatch.initializer;
 
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.service.ConfigurationService;

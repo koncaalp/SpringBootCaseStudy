@@ -21,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<NewUserDto> createUser(@RequestBody User user){
-        return new ResponseEntity<NewUserDto>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<NewUserDto> createUser(){
+        return new ResponseEntity<NewUserDto>(userService.createUser(), HttpStatus.CREATED);
     }
 
     @PutMapping("/updateLevel/{id}")

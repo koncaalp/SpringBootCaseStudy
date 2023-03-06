@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public NewUserDto createUser(User user) {
+    public NewUserDto createUser() {
+        User user = new User();
         user.setCoinBalance(configuration.getStartingCoinBalance());
         User newUser = userRepository.save(user);
         NewUserDto responseDto = new NewUserDto();
