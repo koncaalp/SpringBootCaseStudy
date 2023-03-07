@@ -10,6 +10,7 @@ import com.alpkonca.rowMatch.repository.TeamRepository;
 import com.alpkonca.rowMatch.service.TeamService;
 import com.alpkonca.rowMatch.service.UserService;
 import jakarta.transaction.Transactional;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class TeamServiceImpl implements  TeamService{
 
     @Override
     @Transactional
+    //@Async
     public Team createTeam(int userId, Team team) {
         Team teamWithSameName = teamRepository.findByName(team.getName());
         if (teamWithSameName != null) {
@@ -54,6 +56,7 @@ public class TeamServiceImpl implements  TeamService{
     }
 
     @Override
+    @Transactional
     public Team joinTeam(int userId, int teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId));
         if (userService.isMemberOfTeam(userId)) {

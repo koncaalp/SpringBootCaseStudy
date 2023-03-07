@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public ProgressDto updateLevel(int userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId));
         user.setLevel(user.getLevel()+1);
-        user.setCoinBalance(user.getCoinBalance()+25);
+        user.setCoinBalance(user.getCoinBalance()+configuration.getCoinPerLevel());
         userRepository.save(user);
         ProgressDto responseDto = new ProgressDto();
         responseDto.setLevel(user.getLevel());
