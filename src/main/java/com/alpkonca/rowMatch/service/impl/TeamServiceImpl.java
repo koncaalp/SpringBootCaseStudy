@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -91,6 +92,7 @@ public class TeamServiceImpl implements  TeamService{
             throw new NoResourcesFoundException("teams");
         }
         else {
+            Collections.shuffle(allAvailableTeams);
             return allAvailableTeams;
         }
 
