@@ -37,16 +37,4 @@ public class Team {
         memberCount = 1;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return id == team.id && memberCount == team.memberCount && creatorId == team.creatorId && Objects.equals(name, team.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, memberCount, creatorId);
-    }
 }
