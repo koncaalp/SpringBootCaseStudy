@@ -34,7 +34,6 @@ public class TeamServiceImpl implements  TeamService{
 
     @Override
     @Transactional
-    //@Async
     public Team createTeam(int userId, Team team) {
         Team teamWithSameName = teamRepository.findByName(team.getName());
         if (teamWithSameName != null) {
@@ -78,10 +77,11 @@ public class TeamServiceImpl implements  TeamService{
     public List<Team> getTeams() {
         Random rand = new Random();
         int index;
+        int numberOfTeamsToGet = configuration.getNumberOfTeamsToGet();
         List<Team> allAvailableTeams = teamRepository.findByMemberCountLessThan(configuration.getMaxTeamMemberCount());
-        if (allAvailableTeams.size() > configuration.getNumberOfTeamsToGet()) {
-            List<Team> reservoir = new ArrayList<>(configuration.getNumberOfTeamsToGet());
-            for (int i = 0; i < configuration.getNumberOfTeamsToGet(); i++) {
+        if (allAvailableTeams.size() > numberOfTeamsToGet) {
+            List<Team> reservoir = new ArrayList<>(numberOfTeamsToGet);
+            for (int i = 0; i < numberOfTeamsToGet; i++) {
                 index = rand.nextInt(allAvailableTeams.size());
                 reservoir.add(allAvailableTeams.get(index));
                 allAvailableTeams.remove(index);

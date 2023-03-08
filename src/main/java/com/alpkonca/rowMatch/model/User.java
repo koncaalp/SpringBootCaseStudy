@@ -18,8 +18,12 @@ public class User {
     @Column(nullable = false)
     private int teamId;
 
-
-
+    public User(int id, int level, int coinBalance, int teamId) {
+        this.id = id;
+        this.level = level;
+        this.coinBalance = coinBalance;
+        this.teamId = teamId;
+    }
 
     public User() {
         level = 1;

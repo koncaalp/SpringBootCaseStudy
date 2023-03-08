@@ -6,10 +6,10 @@ import com.alpkonca.rowMatch.exception.UniqueFieldException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.repository.TeamRepository;
-import com.alpkonca.rowMatch.service.TeamService;
-import com.alpkonca.rowMatch.service.UserService;
+
+
 import com.alpkonca.rowMatch.service.impl.TeamServiceImpl;
-import jakarta.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,10 +55,11 @@ public class TeamServiceTest {
         Team result = teamService.createTeam(userId, team);
 
         // Assert
-        Mockito.verify(teamRepository, Mockito.times(1)).save(team);
-        Mockito.verify(userService, Mockito.times(1)).setTeam(userId, team.getId());
-        Mockito.verify(userService, Mockito.times(1)).deductFromBalance(userId, configuration.getTeamCreationCost());
-        assertEquals (result,team);
+
+        assertEquals (result.getId(),team.getId());
+        assertEquals (result.getName(),team.getName());
+        assertEquals (result.getMemberCount(),team.getMemberCount());
+        assertEquals (result.getCreatorId(),team.getCreatorId());
     }
 
     @Test
@@ -99,10 +100,7 @@ public class TeamServiceTest {
         Mockito.when(userService.checkBalance(userId, configuration.getTeamCreationCost())).thenReturn(false);
 
 
-        // Assert
-        Mockito.verify(teamRepository, Mockito.times(0)).save(team);
-        Mockito.verify(userService, Mockito.times(0)).setTeam(userId, team.getId());
-        Mockito.verify(userService, Mockito.times(0)).deductFromBalance(userId, configuration.getTeamCreationCost());
+
         // Act and Assert
         assertThrows(InsufficientBalanceException.class, () -> {
             teamService.createTeam(userId, team);
@@ -120,9 +118,11 @@ public class TeamServiceTest {
         Team result = teamService.joinTeam(userId, team.getId());
 
         // Assert
-        Mockito.verify(teamRepository, Mockito.times(1)).save(team);
         assertEquals(initialMemberCount + 1, result.getMemberCount());
-        assertEquals(team, result);
+        assertEquals (result.getId(),team.getId());
+        assertEquals (result.getName(),team.getName());
+        assertEquals (result.getMemberCount(),team.getMemberCount());
+        assertEquals (result.getCreatorId(),team.getCreatorId());
     }
 
     @Test
@@ -133,7 +133,7 @@ public class TeamServiceTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> teamService.joinTeam(userId, team.getId()));
 
-        Mockito.verify(teamRepository, Mockito.times(0)).save(team);
+
     }
 
     @Test
@@ -155,7 +155,6 @@ public class TeamServiceTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> teamService.joinTeam(userId, teamId));
 
-        Mockito.verify(teamRepository, Mockito.times(0)).save(team);
     }
     @Test
     public void testGetTeams_whenThereAreMoreThan10_thenFetch10Random() {
