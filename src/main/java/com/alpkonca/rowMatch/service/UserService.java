@@ -6,6 +6,7 @@ import com.alpkonca.rowMatch.payload.ProgressDto;
 
 import java.util.List;
 
+// User service interface to achieve abstraction and loose coupling
 public interface UserService {
 
     NewUserDto createUser();

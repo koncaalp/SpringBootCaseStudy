@@ -3,11 +3,13 @@ package com.alpkonca.rowMatch.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
+
+@Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString
 @Entity
-@Table(name = "users")
+@Table(name = "users") // This model represents the users table in the database
 public class User {
 
+    // The id field is the primary key of the table, and it is automatically incremented
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,7 +28,7 @@ public class User {
     }
 
     public User() {
-        level = 1;
+        level = 1; // Since the logical starting value of the level field is 1, and it is not likely to change, set it to 1 in the constructor
     }
 
 

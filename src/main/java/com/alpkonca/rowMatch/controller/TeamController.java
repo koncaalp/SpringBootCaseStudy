@@ -10,33 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/teams")
+@RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for team related requests.
+@RequestMapping("/teams") //Sets the base path for all requests handled by this controller to /teams
 public class TeamController {
-    private TeamService teamService;
 
+    //To provide the team service to the controller
+    private TeamService teamService;
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
 
-
-
+    // HTTP POST request to create a new team
     @PostMapping("/create")
     public ResponseEntity<Team> createUser(@Valid @RequestBody Team team){
-        return new ResponseEntity<Team>(teamService.createTeam(team.getCreatorId(), team), HttpStatus.CREATED);
+        return new ResponseEntity<>(teamService.createTeam(team.getCreatorId(), team), HttpStatus.CREATED); // Invoke the team service to create the team and return the team, set the HTTP status to CREATED
 
     }
+
+    // HTTP PUT request to join a team
     @PutMapping("/join")
     public ResponseEntity<Team> joinTeam(@RequestBody JoinTeamDto joinTeamDto){
+        //Map the joinTeamDto to userId and teamId
         int userId = joinTeamDto.getUserId();
         int teamId = joinTeamDto.getTeamId();
-        return new ResponseEntity<Team>(teamService.joinTeam(userId, teamId), HttpStatus.OK);
+        return new ResponseEntity<>(teamService.joinTeam(userId, teamId), HttpStatus.OK); // Invoke the team service to join the team and return the team, set the HTTP status to OK
     }
 
+    // HTTP GET request to get specified number of teams randomly
     @GetMapping("/getTeams")
     public ResponseEntity<List<Team>> getTeams(){
-        return new ResponseEntity<List<Team>>(teamService.getTeams(), HttpStatus.OK);
+        return new ResponseEntity<>(teamService.getTeams(), HttpStatus.OK); // Invoke the team service to get the teams and return the list of teams, set the HTTP status to OK
     }
 
 

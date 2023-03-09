@@ -10,24 +10,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for user related requests.
 @RequestMapping("/users")
 public class UserController {
 
+    //To provide the team service to the controller
     private UserService userService;
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    // HTTP POST request to create a new user
     @PostMapping("/create")
     public ResponseEntity<NewUserDto> createUser(){
-        return new ResponseEntity<NewUserDto>(userService.createUser(), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(), HttpStatus.CREATED); // Invoke the user service to create the user and return the user mapped to NewUserDto, set the HTTP status to CREATED
     }
 
+    // HTTP PUT request to level up the user
     @PutMapping("/updateLevel/{id}")
     public ResponseEntity<ProgressDto> updateLevel(@PathVariable("id") int userId){
-        return new ResponseEntity<>(userService.updateLevel(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateLevel(userId), HttpStatus.OK); // Invoke the user service to level up the user and return the user mapped to ProgressDto, set the HTTP status to OK
     }
 
 }

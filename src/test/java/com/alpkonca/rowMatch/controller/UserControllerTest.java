@@ -14,44 +14,57 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 
+
+// Unit Test Class for UserController
 @WebMvcTest
 public class UserControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
 
+    // To provide mock implementations of the user service and team service in order to achieve isolation
     @MockBean
     private UserServiceImpl userService;
     @MockBean
     private TeamServiceImpl teamService;
 
+    @Autowired
+    private MockMvc mockMvc; // To provide the MockMvc object to send HTTP requests to the controller
+
+    // Test to check if the HTTP POST request to create a new user is handled correctly when the input is valid
     @Test
     public void testCreateUser_whenSuccessful_thenReturnNewUserAsDto() throws Exception {
-        // Setup
+        // Arrange
+        // NewUserDto is created since the user service returns a NewUserDto object
         NewUserDto newUserDto = new NewUserDto();
         newUserDto.setId(1);
         newUserDto.setCoinBalance(5000);
         newUserDto.setLevel(1);
-        when(userService.createUser()).thenReturn(newUserDto);
 
-        // Exercise and Verify
+        when(userService.createUser()).thenReturn(newUserDto); // Mock the user service to return the newUserDto when the createUser method is invoked
+        // Act
+        // Send the HTTP POST request to create a new team, map the team object to JSON
         mockMvc.perform(post("/users/create"))
+                // Assert
+                // Check if the HTTP status is CREATED, check if the returned JSON object has the correct values
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(newUserDto.getId())))
                 .andExpect(jsonPath("$.coinBalance", is(newUserDto.getCoinBalance())))
                 .andExpect(jsonPath("$.level", is(newUserDto.getLevel())));
     }
 
+    // Test to check if the HTTP PUT request to update the level of a user is handled correctly when the input is valid
     @Test
     public void testUpdateLevel_whenSuccessful_thenReturnNewProgressAsDto() throws Exception {
-        // Setup
+        // Arrange
+        // ProgressDto is created since the user service returns a ProgressDto object
         int userId = 1;
         ProgressDto progressDto = new ProgressDto();
         progressDto.setLevel(1);
         progressDto.setCoinBalance(5000);
-        when(userService.updateLevel(userId)).thenReturn(progressDto);
-
-        // Exercise and Verify
+        when(userService.updateLevel(userId)).thenReturn(progressDto); // Mock the user service to return the progressDto when the updateLevel method is invoked
+        // Act
+        // Send the HTTP PUT request to update the level of a user, map the team object to JSON
         mockMvc.perform(put("/users/updateLevel/{id}", userId))
+                // Assert
+                // Check if the HTTP status is OK, check if the returned JSON object has the correct values
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.level", is(progressDto.getLevel())))
                 .andExpect(jsonPath("$.coinBalance", is(progressDto.getCoinBalance())));

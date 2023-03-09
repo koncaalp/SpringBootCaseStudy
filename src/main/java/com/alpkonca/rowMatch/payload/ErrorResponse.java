@@ -4,7 +4,8 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Data
+// This class is used to create a proper response with necessary information when an error occurs
+
 public class ErrorResponse {
     private Date timestamp;
     private String errorDetails;

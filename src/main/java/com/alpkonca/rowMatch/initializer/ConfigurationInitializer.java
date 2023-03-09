@@ -5,19 +5,18 @@ import com.alpkonca.rowMatch.service.ConfigurationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component // Marks this class as a Spring bean to be managed by Spring framework
-public class ConfigurationInitializer implements CommandLineRunner {
+@Component
+public class ConfigurationInitializer implements CommandLineRunner { // Implementation of CommandLineRunner interface to be executed at startup
 
-    private final ConfigurationService configurationService; // Dependency injection for ConfigurationService bean
-    private final Configuration configuration; // Dependency injection for Configuration bean
-
-    // Constructor for dependency injection
+    //To provide the Configuration model and ConfigurationService to the initializer
+    private final ConfigurationService configurationService;
+    private final Configuration configuration;
     public ConfigurationInitializer(ConfigurationService configurationService, Configuration configuration) {
         this.configurationService = configurationService;
         this.configuration = configuration;
     }
 
-    // Implementation of CommandLineRunner interface's run method, to be executed at startup
+    // Implementation of CommandLineRunner interface's run method overridden to fetch the configuration from the database and set the configuration values to the Configuration object
     @Override
     public void run(String... args) throws Exception {
         // Fetch the configuration from the database using the ConfigurationService

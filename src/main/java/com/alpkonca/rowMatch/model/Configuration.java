@@ -7,12 +7,13 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+// Configuration model is used to store the configuration of the game
 @Data
 @Entity
 @Component
-@Table(name = "configuration")
+@Table(name = "configuration") // This model represents the configuration table in the database
 public class Configuration {
-    @Id
+    @Id //Since there will be only one configuration, id is set to 1 and auto increment is not implemented
     private int id = 1;
     @Column(nullable = false)
     private int startingCoinBalance;
