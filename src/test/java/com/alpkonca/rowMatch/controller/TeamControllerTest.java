@@ -36,7 +36,7 @@ public class TeamControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void testCreateTeam_withValidInput() throws Exception {
+    public void testCreateTeam_whenInputIsValid_thenReturnCreatedTeamWithCreatedStatus() throws Exception {
         // Arrange
         Team team = new Team(1, "First team", 1, 1);
         when(teamService.createTeam(anyInt(), any(Team.class))).thenReturn(team);
@@ -52,7 +52,7 @@ public class TeamControllerTest {
                 .andExpect(jsonPath("$.creatorId", is(team.getCreatorId())));
     }
     @Test
-    public void testCreateTeamWithNoCreatorId() throws Exception {
+    public void testCreateTeam_whenNoCreatorIdSent_thenReturnBadRequestWithMessage() throws Exception {
         // Arrange
         Team invalidTeam = new Team(1, "First team", 1, 0);
 
@@ -68,7 +68,7 @@ public class TeamControllerTest {
         .andExpect(jsonPath("$.creatorId", is("creatorId must be sent and be greater than 0")));
     }
     @Test
-    public void testCreateTeamWithBlankTeamName() throws Exception {
+    public void testCreateTeam_whenNameSentBlank_thenReturnBadRequestWithMessage() throws Exception {
         // Arrange
         Team invalidTeam = new Team(1, "", 1, 1);
 
@@ -84,7 +84,7 @@ public class TeamControllerTest {
         .andExpect(jsonPath("$.name", is("name must be sent and cannot be empty")));
     }
     @Test
-    public void testJoinTeam_withValidInput() throws Exception {
+    public void testJoinTeam_whenInputIsValid_thenReturnJoinedTeamWithOkStatus() throws Exception {
         // Arrange
         JoinTeamDto teamDto = new JoinTeamDto();
         teamDto.setTeamId(1);
@@ -103,16 +103,17 @@ public class TeamControllerTest {
                 .andExpect(jsonPath("$.creatorId", is(team.getCreatorId())));
     }
     @Test
-    public void testGetTeams() throws Exception {
-        // Setup
+    public void testGetTeams_whenSuccessful_thenReturnTeamsWithOkStatus() throws Exception {
+        // Arrange
         List<Team> teams = Arrays.asList(
                 new Team(1, "Team 1", 1, 1),
                 new Team(2, "Team 2", 2, 2)
         );
         when(teamService.getTeams()).thenReturn(teams);
 
-        // Exercise
+        // Act
         mockMvc.perform(get("/teams/getTeams"))
+                // Assert
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(teams)));
 

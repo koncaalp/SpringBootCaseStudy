@@ -38,12 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler { // 
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "no_resources_found",ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(MissingFieldException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleMissingFieldException(MissingFieldException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(),webRequest.getDescription(false), "missing_field",ex.getMessage());
-        return ResponseEntity.badRequest().body(errorResponse);
-    }
+
     @ExceptionHandler(UniqueFieldException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {

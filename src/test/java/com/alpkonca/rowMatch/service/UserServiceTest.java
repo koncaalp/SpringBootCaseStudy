@@ -37,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCreateUser() {
+    public void testCreateUser_whenSuccessful_thenReturnNewUserAsDto() {
         // Arrange
         when(configuration.getStartingCoinBalance()).thenReturn(user.getCoinBalance());
         when(userRepository.save(any(User.class))).thenReturn(user);
@@ -51,7 +51,7 @@ public class UserServiceTest {
         assertEquals(user.getLevel(), result.getLevel());
     }
     @Test
-    public void testUpdateLevel() {
+    public void testUpdateLevel_whenSuccessful_thenReturnUpdatedProgressOfUser() {
         // Arrange
         when(configuration.getCoinPerLevel()).thenReturn(25);
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -64,14 +64,14 @@ public class UserServiceTest {
         assertEquals(5025, result.getCoinBalance());
     }
     @Test
-    public void testUpdateLevelWithNonexistentUser() {
+    public void testUpdateLevel_whenUserDoesNotExist_thenThrowResourceWithIdNotFoundException() {
         // Arrange
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
         // Assert & Act
         assertThrows(ResourceWithIdNotFoundException.class, () -> userService.updateLevel(user.getId()));
     }
     @Test
-    public void testCheckBalanceWithSufficientBalance() {
+    public void testCheckBalance_whenUserHasSufficientBalance_thenReturnTrue() {
         // Arrange
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
@@ -81,7 +81,7 @@ public class UserServiceTest {
         // Assert
         assertEquals(true, result);
     } @Test
-    public void testCheckBalanceWithInsufficientBalance() {
+    public void testCheckBalance_whenUserHasInsufficientBalance_thenReturnFalse() {
         // Arrange
         user.setCoinBalance(500);
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -92,14 +92,14 @@ public class UserServiceTest {
         assertEquals(false, result);
     }
     @Test
-    public void testCheckBalanceLevelWithNonexistentUser() {
+    public void testCheckBalance_whenUserDoesNotExist_thenThrowResourceWithIdNotFoundExcepion() {
         // Arrange
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
         // Assert & Act
         assertThrows(ResourceWithIdNotFoundException.class, () -> userService.checkBalance(user.getId(), 1000));
     }
     @Test
-    public void testIsMemberOfTeam() {
+    public void testIsMemberOfTeam_whenUserDoesNotHaveATeam_thenReturnFalse() {
         // Arrange
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         // Act

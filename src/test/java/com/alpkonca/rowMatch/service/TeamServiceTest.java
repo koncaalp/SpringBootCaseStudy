@@ -44,7 +44,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testCreateTeam_withValidInput() {
+    public void testCreateTeam_whenInputIsValid_thenReturnCreatedTeam() {
         // Arrange
         Mockito.when(teamRepository.findByName(team.getName())).thenReturn(null);
         Mockito.when(userService.isMemberOfTeam(userId)).thenReturn(false);
@@ -63,7 +63,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testCreateTeam_withDuplicateTeamName() {
+    public void testCreateTeam_whenNameIsDuplicate_thenThrowUniqueFieldException() {
         // Arrange
 
         Team existingTeam = new Team(2, "First team", 3, 3);
@@ -78,7 +78,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testCreateTeam_withUserAlreadyMemberOfTeam() {
+    public void testCreateTeam_whenUserAlreadyHasATeam_thenThrowRuntimeException() {
         // Arrange
 
 
@@ -91,7 +91,7 @@ public class TeamServiceTest {
         });
     }
     @Test
-    public void testCreateTeam_withUserHasInsufficientBalance() {
+    public void testCreateTeam_whenUsersBalanceIsInsufficient_thenThrowInsufficientBalanceException() {
 
         Team team = new Team(1, "Team A", 1, userId);
 
@@ -107,7 +107,7 @@ public class TeamServiceTest {
         });
     }
     @Test
-    public void testJoinTeam() {
+    public void testJoinTeam_whenInputIsValid_thenReturnJoinedTeam() {
         // Arrange
         Mockito.when(teamRepository.findById(team.getId())).thenReturn(Optional.ofNullable(team));
         Mockito.when(userService.isMemberOfTeam(userId)).thenReturn(false);
@@ -126,7 +126,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testJoinTeam_whenUserIsAlreadyMemberOfTeam_thenThrowException() {
+    public void testJoinTeam_whenUserAlreadyHasATeam_thenThrowException() {
         // Arrange
         Mockito.when(teamRepository.findById(team.getId())).thenReturn(Optional.ofNullable(team));
         Mockito.when(userService.isMemberOfTeam(userId)).thenReturn(true);
@@ -157,7 +157,7 @@ public class TeamServiceTest {
 
     }
     @Test
-    public void testGetTeams_whenThereAreMoreThan10_thenFetch10Random() {
+    public void testGetTeams_whenThereAreMoreThan10Teams_thenFetch10RandomTeams() {
         // Arrange
         List<Team> teams = new ArrayList<>();
         teams.add(team);
@@ -181,7 +181,7 @@ public class TeamServiceTest {
         assertEquals(10, uniqueTeams.size());
     }
     @Test
-    public void testGetTeams_whenThereAreLessThan10_thenFetchAllRandom() {
+    public void testGetTeams_whenThereAreLessThan10_thenFetchAllTeamsRandomly() {
         // Arrange
         List<Team> teams = new ArrayList<>();
         teams.add(team);

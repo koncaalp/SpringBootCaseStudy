@@ -1,9 +1,5 @@
 package com.alpkonca.rowMatch.controller;
 
-import com.alpkonca.rowMatch.payload.ErrorResponse;
-import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
-import com.alpkonca.rowMatch.exception.MissingFieldException;
-import com.alpkonca.rowMatch.exception.UniqueFieldException;
 import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.payload.JoinTeamDto;
 import com.alpkonca.rowMatch.service.TeamService;

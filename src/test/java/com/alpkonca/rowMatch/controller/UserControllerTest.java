@@ -25,7 +25,7 @@ public class UserControllerTest {
     private TeamServiceImpl teamService;
 
     @Test
-    public void testCreateUser() throws Exception {
+    public void testCreateUser_whenSuccessful_thenReturnNewUserAsDto() throws Exception {
         // Setup
         NewUserDto newUserDto = new NewUserDto();
         newUserDto.setId(1);
@@ -42,7 +42,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdateLevel() throws Exception {
+    public void testUpdateLevel_whenSuccessful_thenReturnNewProgressAsDto() throws Exception {
         // Setup
         int userId = 1;
         ProgressDto progressDto = new ProgressDto();
