@@ -1,7 +1,5 @@
 package com.alpkonca.rowMatch.payload;
 
-import lombok.Data;
-
 import java.util.Date;
 
 // This class is used to create a proper response with necessary information when an error occurs

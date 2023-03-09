@@ -1,7 +1,5 @@
 package com.alpkonca.rowMatch.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 // This exception is thrown when the request is trying to create a resource with a field that is already taken - does not follow the unique constraint.
 public class UniqueFieldException extends RuntimeException{

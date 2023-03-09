@@ -1,6 +1,6 @@
 package com.alpkonca.rowMatch.controller;
 
-import com.alpkonca.rowMatch.model.User;
+
 import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
 import com.alpkonca.rowMatch.service.UserService;
@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for user related requests.
 @RequestMapping("/users")

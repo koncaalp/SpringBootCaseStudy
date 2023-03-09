@@ -1,6 +1,5 @@
 package com.alpkonca.rowMatch.service;
 
-import com.alpkonca.rowMatch.model.User;
 import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
 
