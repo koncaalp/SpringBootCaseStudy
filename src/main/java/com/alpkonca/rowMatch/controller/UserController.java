@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for user related requests.
-@RequestMapping("/users") //Sets the base path for all requests handled by this controller to /teams
+@RequestMapping("/users")
 public class UserController {
 
     //To provide the team service to the controller
@@ -25,14 +25,14 @@ public class UserController {
     @PostMapping("/create")
     @Operation(summary = "Creates a new user")
     public ResponseEntity<NewUserDto> createUser(){
-        return new ResponseEntity<>(userService.createUser(), HttpStatus.CREATED); // Invoke the user service to create the user and return the user mapped to NewUserDto, set the HTTP status to CREATED
+        return new ResponseEntity<>(userService.createUser(), HttpStatus.CREATED);
     }
 
     // HTTP PUT request to level up the user
     @PutMapping("/updateLevel/{id}")
     @Operation(summary = "Levels up the user")
     public ResponseEntity<ProgressDto> updateLevel(@PathVariable("id") int userId){
-        return new ResponseEntity<>(userService.updateLevel(userId), HttpStatus.OK); // Invoke the user service to level up the user and return the user mapped to ProgressDto, set the HTTP status to OK
+        return new ResponseEntity<>(userService.updateLevel(userId), HttpStatus.OK);
     }
 
 }

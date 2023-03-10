@@ -39,12 +39,12 @@ public class TeamServiceImpl implements  TeamService{
                    // that all operations are completed successfully or all of them are rolled back.
     public Team createTeam(int userId, Team team) {
         Team teamWithSameName = teamRepository.findByName(team.getName()); // Check if there is a team with the same name
-        if (teamWithSameName != null) { // If there is a team with the same name, throw a UniqueFieldException
+        if (teamWithSameName != null) {
             throw new UniqueFieldException("Team", "name", team.getName());
         } else {
             if (userService.isMemberOfTeam(userId)) {
                 throw new RuntimeException("User is already a member of a team");
-            } else {
+            } else { // All checks are passed
                 if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {
                     Team newTeam = teamRepository.save(team);
                     userService.setTeam(userId, newTeam.getId());
@@ -69,14 +69,14 @@ public class TeamServiceImpl implements  TeamService{
     public Team joinTeam(int userId, int teamId) {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId)); // If the team is not found, throw a ResourceWithIdNotFoundException, necessary since the findById method returns an Optional object
-        if (userService.isMemberOfTeam(userId)) { // Check if the user is already a member of a team
-            throw new RuntimeException("User is already a member of a team"); // If the user is already a member of a team, throw a RuntimeException
+        if (userService.isMemberOfTeam(userId)) {
+            throw new RuntimeException("User is already a member of a team");
         }
-        else if (team.getMemberCount() >= configuration.getMaxTeamMemberCount()) // Check if the team is full
+        else if (team.getMemberCount() >= configuration.getMaxTeamMemberCount())
         {
-            throw new RuntimeException("Team is full"); // If the team is full, throw a RuntimeException
+            throw new RuntimeException("Team is full");
         }
-        else { // If all the checks are passed, set the users team to the given team and increment the member count of the team
+        else { // All checks are passed
             userService.setTeam(userId, teamId);
             team.setMemberCount(team.getMemberCount() + 1);
             teamRepository.save(team);
@@ -89,8 +89,8 @@ public class TeamServiceImpl implements  TeamService{
     public List<Team> getTeams() {
         Random rand = new Random();
         int index;
-        int numberOfTeamsToGet = configuration.getNumberOfTeamsToGet(); // Get the number of teams to get from the configuration
-        List<Team> allAvailableTeams = teamRepository.findByMemberCountLessThan(configuration.getMaxTeamMemberCount()); // Get all the teams which have an empty spot
+        int numberOfTeamsToGet = configuration.getNumberOfTeamsToGet();
+        List<Team> allAvailableTeams = teamRepository.findByMemberCountLessThan(configuration.getMaxTeamMemberCount());
         if (allAvailableTeams.size() > numberOfTeamsToGet) { // If the number of teams which have an empty spot is greater than the number of teams to get, get the specified number of teams randomly
             List<Team> reservoir = new ArrayList<>(numberOfTeamsToGet);
             // Randomly select indices from the list of teams which have an empty spot and add the teams with the selected indices to the reservoir
@@ -102,8 +102,8 @@ public class TeamServiceImpl implements  TeamService{
             }
             return reservoir;
         }
-        else if (allAvailableTeams.size() == 0) { // If there are no teams which have an empty spot, throw a NoResourcesFoundException
-            throw new NoResourcesFoundException("teams");
+        else if (allAvailableTeams.size() == 0) { // If there are no teams which have an empty spot
+            throw new NoResourcesFoundException("teams with empty spots");
         }
         else { // If the number of teams which have an empty spot is less than the number of teams to get, return all the teams which have an empty spot in a random order
             Collections.shuffle(allAvailableTeams); // Shuffle the list of teams which have an empty spot

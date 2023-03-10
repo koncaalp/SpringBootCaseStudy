@@ -16,43 +16,43 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-// GlobalExceptionHandler for handling all exceptions
+// GlobalExceptionHandler for handling all exceptions, includes custom and default exceptions. Returns ErrorResponse object with error details and date of error.
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler { // extends ResponseEntityExceptionHandler for custom validation response
 
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+
     @ExceptionHandler(InsufficientBalanceException.class) // handles InsufficientBalanceException when the user has insufficient balance to perform an action
-    public ErrorResponse handleInsufficientBalanceException(InsufficientBalanceException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "insufficient_balance", ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse;
+    public ResponseEntity<ErrorResponse> handleInsufficientBalanceException(InsufficientBalanceException ex, WebRequest webRequest) {
+        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "insufficient_balance", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ResourceWithIdNotFoundException.class) // handles ResourceWithIdNotFoundException when the resource with the given id is not found
-    public ErrorResponse handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withId_not_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse;
+
+    @ExceptionHandler(ResourceWithIdNotFoundException.class) // handles ResourceNotFoundException when the resource is not found
+    public ResponseEntity<ErrorResponse> handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
+        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withId_not_found",ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+
     @ExceptionHandler(NoResourcesFoundException.class) // handles NoResourcesFoundException when there is no resource found in the database table
-    public ErrorResponse handleNoResourcesFound(NoResourcesFoundException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "no_resources_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse;
+    public ResponseEntity<ErrorResponse> handleNoResourcesFound(NoResourcesFoundException ex, WebRequest webRequest) {
+        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "no_resources_found",ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+
     @ExceptionHandler(UniqueFieldException.class) // handles UniqueFieldException when there is another record with the same unique field in the database table
-    public ErrorResponse handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(),webRequest.getDescription(false), "unique_field",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse;
+    public ResponseEntity<ErrorResponse> handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {
+        ErrorResponse errorResponse = new ErrorResponse(new Date(),webRequest.getDescription(false), "unique_field",ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+
     @ExceptionHandler(Exception.class) // handle all other exceptions
-    public ErrorResponse handleGlobalException(Exception ex, WebRequest webRequest) {
-        ErrorResponse error = new ErrorResponse(new Date(), webRequest.getDescription(false), "error",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return error;
+    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest webRequest) {
+        ErrorResponse error = new ErrorResponse(new Date(), webRequest.getDescription(false), "error",ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
