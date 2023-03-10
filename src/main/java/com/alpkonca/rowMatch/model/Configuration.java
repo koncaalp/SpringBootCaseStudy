@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Entity
 @Component
-@Table(name = "configuration") // This model represents the configuration table in the database
+@Table(name = "configuration")
 public class Configuration {
     @Id //Since there will be only one configuration, id is set to 1 and auto increment is not implemented
     private int id = 1;

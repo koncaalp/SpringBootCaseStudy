@@ -9,14 +9,13 @@ import lombok.Data;
 
 @Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString
 @Entity
-@Table(name = "teams") // This model represents the teams table in the database
+@Table(name = "teams")
 public class Team {
-    // The id field is the primary key of the table, and it is automatically incremented
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false, unique = true) // The name field is unique
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "name must be sent and cannot be empty") // Validation for the name field to ensure that it is not null, empty, or whitespace
     private String name;
     @Column(nullable = false)

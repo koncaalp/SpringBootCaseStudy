@@ -21,44 +21,44 @@ import java.util.Map;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler { // extends ResponseEntityExceptionHandler for custom validation response
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(InsufficientBalanceException.class) // handle InsufficientBalanceException
+    @ExceptionHandler(InsufficientBalanceException.class) // handles InsufficientBalanceException when the user has insufficient balance to perform an action
     public ErrorResponse handleInsufficientBalanceException(InsufficientBalanceException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "insufficient_balance", ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse; // return error response and set status code to BAD_REQUEST
+        return errorResponse;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ResourceWithIdNotFoundException.class) // handle ResourceWithIdNotFoundException
+    @ExceptionHandler(ResourceWithIdNotFoundException.class) // handles ResourceWithIdNotFoundException when the resource with the given id is not found
     public ErrorResponse handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withId_not_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
         return errorResponse;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoResourcesFoundException.class) // handle NoResourcesFoundException
+    @ExceptionHandler(NoResourcesFoundException.class) // handles NoResourcesFoundException when there is no resource found in the database table
     public ErrorResponse handleNoResourcesFound(NoResourcesFoundException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "no_resources_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse; // return error response and set status code to NOT_FOUND
+        return errorResponse;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UniqueFieldException.class) // handle UniqueFieldException
+    @ExceptionHandler(UniqueFieldException.class) // handles UniqueFieldException when there is another record with the same unique field in the database table
     public ErrorResponse handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(),webRequest.getDescription(false), "unique_field",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return errorResponse; // return error response and set status code to BAD_REQUEST
+        return errorResponse;
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class) // handle all other exceptions
     public ErrorResponse handleGlobalException(Exception ex, WebRequest webRequest) {
         ErrorResponse error = new ErrorResponse(new Date(), webRequest.getDescription(false), "error",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return error; // return error response and set status code to INTERNAL_SERVER_ERROR
+        return error;
     }
 
 
     @Override // override handleMethodArgumentNotValid method for custom validation response
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        Map<String, String> errors = new HashMap<>(); // create a map for storing errors
+        Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> { // get all errors and add them to map with field name and error message
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();

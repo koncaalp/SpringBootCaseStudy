@@ -1,15 +1,15 @@
 package com.alpkonca.rowMatch.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
 
 @Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString
 @Entity
-@Table(name = "users") // This model represents the users table in the database
+@Table(name = "users")
 public class User {
 
-    // The id field is the primary key of the table, and it is automatically incremented
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

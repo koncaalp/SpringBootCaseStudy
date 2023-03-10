@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
 
-    // Method to level up the user
+    // Method to level up the user; check if the user exists; increment the level and add the coin per level to the user's coin balance
     @Override
     public ProgressDto updateLevel(int userId) {
         User user = userRepository.findById(userId) // Retrieve the user with the given id from the database
@@ -55,7 +55,8 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
 
-    // Method to check if the user has enough coin balance to perform an action
+    // Method to check if the user has enough coin balance to perform an action; check if the user exists;
+    // return true if the user has enough coin balance, false otherwise
     @Override
     public boolean checkBalance(int userId, int requiredCoinBalance) {
         User user = userRepository.findById(userId) // Retrieve the user with the given id from the database
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // Method to check if the user is already in a team
+    // Method to check if the user is already in a team; check if the user exists; return false if the user is not in a team, true otherwise
     @Override
     public boolean isMemberOfTeam(int userId) {
         User user = userRepository.findById(userId) // Retrieve the user with the given id from the database
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // Method to set the teamId of the user
+    // Method to set the teamId of the user; check if the user exists; set the teamId of the user
     @Override
     public void setTeam(int userId, int teamId) {
         User user = userRepository.findById(userId) // Retrieve the user with the given id from the database
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    // Method to deduct coins from the balance of the user
+    // Method to deduct coins from the balance of the user; check if the user exists; deduct the amount set in configurations from the user's coin balance
     @Override
     public void deductFromBalance(int userId, int balanceToDeduct) {
         User user = userRepository.findById(userId) // Retrieve the user with the given id from the database

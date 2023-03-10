@@ -30,36 +30,44 @@ public class TeamServiceImpl implements  TeamService{
         this.configuration = configuration;
     }
 
-    // Method to create a new team,
+    // Method to create a new team; check if there is a team with the same name, check if the user is already a member
+    // of a team, check if the user has enough balance to create a team; if all the checks are passed, create a new team,
+    // set the users team to the new team and deduct the team creation cost from the users balance
     @Override
-    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes multiple database operations, it is necessary to make use of transactional annotation to ensure that all operations are completed successfully or all of them are rolled back.
+    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes
+                   // multiple database operations, it is necessary to make use of transactional annotation to ensure
+                   // that all operations are completed successfully or all of them are rolled back.
     public Team createTeam(int userId, Team team) {
         Team teamWithSameName = teamRepository.findByName(team.getName()); // Check if there is a team with the same name
         if (teamWithSameName != null) { // If there is a team with the same name, throw a UniqueFieldException
             throw new UniqueFieldException("Team", "name", team.getName());
         } else {
-            if (userService.isMemberOfTeam(userId)) { // Check if the user is already a member of a team
-                throw new RuntimeException("User is already a member of a team"); // If the user is already a member of a team, throw a RuntimeException
+            if (userService.isMemberOfTeam(userId)) {
+                throw new RuntimeException("User is already a member of a team");
             } else {
-                if (userService.checkBalance(userId, configuration.getTeamCreationCost())) { // Check if the user has enough balance to create a team
-                    // If all the checks are passed, create a new team, set the users team to the new team and deduct the team creation cost from the users balance
+                if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {
                     Team newTeam = teamRepository.save(team);
                     userService.setTeam(userId, newTeam.getId());
                     userService.deductFromBalance(userId, configuration.getTeamCreationCost());
                     return newTeam;
-                } else {
-                    throw new InsufficientBalanceException("create","team"); // If the user does not have enough balance to create a team, throw an InsufficientBalanceException
+                }
+                else {
+                    throw new InsufficientBalanceException("create","team");
                 }
             }
         }
 
     }
 
-    // Method to join a team
+    // Method to join a team with the given user id and team id; check if the team exists,
+    // check if the user is already a member, check if the team is full; if all the checks are passed,
+    // set the users team to the given team and increment the member count of the team
     @Override
-    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes multiple database operations, it is necessary to make use of transactional annotation to ensure that all operations are completed successfully or all of them are rolled back.
+    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes
+                   // multiple database operations, it is necessary to make use of transactional annotation to ensure that
+                   // all operations are completed successfully or all of them are rolled back.
     public Team joinTeam(int userId, int teamId) {
-        Team team = teamRepository.findById(teamId) // Retrieve the team with the given id from the database
+        Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId)); // If the team is not found, throw a ResourceWithIdNotFoundException, necessary since the findById method returns an Optional object
         if (userService.isMemberOfTeam(userId)) { // Check if the user is already a member of a team
             throw new RuntimeException("User is already a member of a team"); // If the user is already a member of a team, throw a RuntimeException
@@ -76,7 +84,7 @@ public class TeamServiceImpl implements  TeamService{
         }
     }
 
-    // Method to get specified (in configurations) number of teams which have an empty spot randomly
+    // Method to get specified number of teams which have an empty spot randomly
     @Override
     public List<Team> getTeams() {
         Random rand = new Random();

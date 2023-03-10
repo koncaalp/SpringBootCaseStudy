@@ -1,4 +1,4 @@
-package com.alpkonca.rowMatch.initializer;
+package com.alpkonca.rowMatch.configuration;
 
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.service.ConfigurationService;
@@ -16,11 +16,12 @@ public class ConfigurationInitializer implements CommandLineRunner { // Implemen
         this.configuration = configuration;
     }
 
-    // Implementation of CommandLineRunner interface's run method overridden to fetch the configuration from the database and set the configuration values to the Configuration object
+    // Implementation of CommandLineRunner interface's run method overridden to fetch the configuration from the database
+    // and set the configuration values to the Configuration object
     @Override
     public void run(String... args) throws Exception {
-        // Fetch the configuration from the database using the ConfigurationService
-        Configuration config = configurationService.fetchConfigurations();
+        Configuration config = configurationService.fetchConfigurations(); // Fetch the configuration from the database using the ConfigurationService
+
         // Set the configuration values fetched from the database to the Configuration object
         configuration.setCoinPerLevel(config.getCoinPerLevel());
         configuration.setMaxTeamMemberCount(config.getMaxTeamMemberCount());

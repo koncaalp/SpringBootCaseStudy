@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for user related requests.
-@RequestMapping("/users")
+@RequestMapping("/users") //Sets the base path for all requests handled by this controller to /teams
 public class UserController {
 
     //To provide the team service to the controller
