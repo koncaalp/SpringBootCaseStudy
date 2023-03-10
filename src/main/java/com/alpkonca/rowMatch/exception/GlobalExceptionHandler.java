@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import java.util.Date;
@@ -19,33 +20,41 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler { // extends ResponseEntityExceptionHandler for custom validation response
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(InsufficientBalanceException.class) // handle InsufficientBalanceException
-    public ResponseEntity<ErrorResponse> handleInsufficientBalanceException(InsufficientBalanceException ex, WebRequest webRequest) {
+    public ErrorResponse handleInsufficientBalanceException(InsufficientBalanceException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "insufficient_balance", ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN); // return error response and set status code to BAD_REQUEST
+        return errorResponse; // return error response and set status code to BAD_REQUEST
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceWithIdNotFoundException.class) // handle ResourceWithIdNotFoundException
-    public ResponseEntity<ErrorResponse> handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
+    public ErrorResponse handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withId_not_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // return error response and set status code to NOT_FOUND
+        return errorResponse;
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoResourcesFoundException.class) // handle NoResourcesFoundException
-    public ResponseEntity<ErrorResponse> handleNoResourcesFound(NoResourcesFoundException ex, WebRequest webRequest) {
+    public ErrorResponse handleNoResourcesFound(NoResourcesFoundException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "no_resources_found",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // return error response and set status code to NOT_FOUND
+        return errorResponse; // return error response and set status code to NOT_FOUND
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UniqueFieldException.class) // handle UniqueFieldException
-    public ResponseEntity<ErrorResponse> handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {
+    public ErrorResponse handleUniqueFieldException(UniqueFieldException ex, WebRequest webRequest) {
         ErrorResponse errorResponse = new ErrorResponse(new Date(),webRequest.getDescription(false), "unique_field",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return ResponseEntity.badRequest().body(errorResponse); // return error response and set status code to BAD_REQUEST
+        return errorResponse; // return error response and set status code to BAD_REQUEST
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class) // handle all other exceptions
-    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest webRequest) {
+    public ErrorResponse handleGlobalException(Exception ex, WebRequest webRequest) {
         ErrorResponse error = new ErrorResponse(new Date(), webRequest.getDescription(false), "error",ex.getMessage()); // create ErrorResponse object with error details and date of error
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // return error response and set status code to INTERNAL_SERVER_ERROR
+        return error; // return error response and set status code to INTERNAL_SERVER_ERROR
     }
+
 
     @Override // override handleMethodArgumentNotValid method for custom validation response
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
