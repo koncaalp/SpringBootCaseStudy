@@ -9,7 +9,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import java.util.Date;
@@ -28,9 +27,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler { // 
     }
 
 
-    @ExceptionHandler(ResourceWithIdNotFoundException.class) // handles ResourceNotFoundException when the resource is not found
-    public ResponseEntity<ErrorResponse> handleResourceWithIdNotFound(ResourceWithIdNotFoundException ex, WebRequest webRequest) {
-        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withId_not_found",ex.getMessage());
+    @ExceptionHandler(ResourceWithFieldNotFoundException.class) // handles ResourceWithFieldNotFoundException when the resource is not found
+    public ResponseEntity<ErrorResponse> handleResourceWithIdNotFound(ResourceWithFieldNotFoundException ex, WebRequest webRequest) {
+        ErrorResponse errorResponse = new ErrorResponse(new Date(), webRequest.getDescription(false), "resource_withField_not_found",ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 

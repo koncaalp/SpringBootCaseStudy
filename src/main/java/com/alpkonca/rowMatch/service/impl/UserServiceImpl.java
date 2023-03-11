@@ -1,6 +1,6 @@
 package com.alpkonca.rowMatch.service.impl;
 
-import com.alpkonca.rowMatch.exception.ResourceWithIdNotFoundException;
+import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.User;
 import com.alpkonca.rowMatch.payload.NewUserDto;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProgressDto updateLevel(int userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId)); // If the user is not found, throw a ResourceWithIdNotFoundException, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // If the user is not found, throw a ResourceWithFieldNotFoundException, necessary since the findById method returns an Optional object
         user.setLevel(user.getLevel()+1);
         user.setCoinBalance(user.getCoinBalance()+configuration.getCoinPerLevel());
         userRepository.save(user);
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkBalance(int userId, int requiredCoinBalance) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId)); // Throw a ResourceWithIdNotFoundException if the user is not found, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
         if(user.getCoinBalance() >= requiredCoinBalance){
             return true;
         }
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isMemberOfTeam(int userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId)); // Throw a ResourceWithIdNotFoundException if the user is not found, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
         if(user.getTeamId() == 0){ // Return false if the user is not in a team -> teamId is 0, true otherwise
             return false;
         }
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setTeam(int userId, int teamId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId)); // Throw a ResourceWithIdNotFoundException if the user is not found, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
 
         user.setTeamId(teamId);
         userRepository.save(user);
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deductFromBalance(int userId, int balanceToDeduct) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("User", "id",userId)); // Throw a ResourceWithIdNotFoundException if the user is not found, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
         user.setCoinBalance(user.getCoinBalance()-balanceToDeduct);
         userRepository.save(user);
     }

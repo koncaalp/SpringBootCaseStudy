@@ -1,6 +1,6 @@
 package com.alpkonca.rowMatch.service;
 
-import com.alpkonca.rowMatch.exception.ResourceWithIdNotFoundException;
+import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.User;
 import com.alpkonca.rowMatch.payload.NewUserDto;
@@ -85,7 +85,7 @@ public class UserServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty()); // To provide mock implementation of the user repository method to return an empty object when the findById method is called with the userId
 
         // Assert & Act
-        assertThrows(ResourceWithIdNotFoundException.class, () -> userService.updateLevel(user.getId())); // Check if the ResourceWithIdNotFoundException is thrown when the updateLevel method is called with the userId
+        assertThrows(ResourceWithFieldNotFoundException.class, () -> userService.updateLevel(user.getId())); // Check if the ResourceWithFieldNotFoundException is thrown when the updateLevel method is called with the userId
     }
 
     // Test to check if the CheckBalance method is handled correctly when the user has sufficient balance for performing the action
@@ -123,7 +123,7 @@ public class UserServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty()); // To provide mock implementation of the user repository method to return an empty object when the findById method is called with the userId
 
         // Assert & Act
-        assertThrows(ResourceWithIdNotFoundException.class, () -> userService.checkBalance(user.getId(), 1000)); // Check if the ResourceWithIdNotFoundException is thrown when the checkBalance method is called with a non-existent userId
+        assertThrows(ResourceWithFieldNotFoundException.class, () -> userService.checkBalance(user.getId(), 1000)); // Check if the ResourceWithFieldNotFoundException is thrown when the checkBalance method is called with a non-existent userId
     }
 
     // Test to check if the IsMemberOfTeam method is handled correctly when the user does not have a team
@@ -161,7 +161,7 @@ public class UserServiceTest {
         when(userRepository.findById(user.getId())).thenReturn(Optional.empty()); // To provide mock implementation of the user repository method to return an empty object when the findById method is called with a non-existent userId
 
         // Act & Assert
-        assertThrows(ResourceWithIdNotFoundException.class, () -> userService.isMemberOfTeam(user.getId())); // Check if the ResourceWithIdNotFoundException is thrown when the isMemberOfTeam method is called with a non-existent userId
+        assertThrows(ResourceWithFieldNotFoundException.class, () -> userService.isMemberOfTeam(user.getId())); // Check if the ResourceWithFieldNotFoundException is thrown when the isMemberOfTeam method is called with a non-existent userId
     }
 
 

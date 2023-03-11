@@ -2,7 +2,7 @@ package com.alpkonca.rowMatch.service.impl;
 
 import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
 import com.alpkonca.rowMatch.exception.NoResourcesFoundException;
-import com.alpkonca.rowMatch.exception.ResourceWithIdNotFoundException;
+import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.exception.UniqueFieldException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.Team;
@@ -68,7 +68,7 @@ public class TeamServiceImpl implements  TeamService{
                    // all operations are completed successfully or all of them are rolled back.
     public Team joinTeam(int userId, int teamId) {
         Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new ResourceWithIdNotFoundException("Team", "id",teamId)); // If the team is not found, throw a ResourceWithIdNotFoundException, necessary since the findById method returns an Optional object
+                .orElseThrow(() -> new ResourceWithFieldNotFoundException("Team", "id",teamId)); // If the team is not found, throw a ResourceWithFieldNotFoundException, necessary since the findById method returns an Optional object
         if (userService.isMemberOfTeam(userId)) {
             throw new RuntimeException("User is already a member of a team");
         }
