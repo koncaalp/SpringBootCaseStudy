@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -67,6 +66,7 @@ public class TeamControllerTest {
     public void testCreateTeam_whenNoUserIdSent_thenReturnBadRequestWithMessage() throws Exception {
         // Arrange
         Team invalidTeam = new Team(1, "First team", 1);
+        when(teamService.createTeam(eq(0), anyString())).thenThrow(new ResourceWithFieldNotFoundException("User", "id", 0)); // Mock the team service to throw an exception when the createTeam method is invoked
         // Act
         // Send the HTTP POST request to create a new team, map the invalid team object to JSON
         mockMvc.perform(post("/teams/create")
@@ -74,8 +74,8 @@ public class TeamControllerTest {
                         .content(objectMapper.writeValueAsString(invalidTeam)))
                 // Assert
                 // Check if the HTTP status is BAD_REQUEST and check if the returned JSON object has the correct message
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.userId", is("userId must be sent and cannot be empty")));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", is("User not found with id : '0'")));
     }
 
     // Test to check if the HTTP POST request to create a new team is handled correctly when the name is not sent, sent as an empty string or sent as whitespace

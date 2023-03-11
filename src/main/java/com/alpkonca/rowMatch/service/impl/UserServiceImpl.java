@@ -1,6 +1,5 @@
 package com.alpkonca.rowMatch.service.impl;
 
-import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
 import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.Team;
@@ -9,6 +8,7 @@ import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
 import com.alpkonca.rowMatch.repository.UserRepository;
 import com.alpkonca.rowMatch.service.UserService;
+
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
         user.setCoinBalance(configuration.getStartingCoinBalance());
         User newUser = userRepository.save(user);
 
-        // Map the user object to the response DTO in order to exclude the teamId field
+        // Map the user object to the response DTO in order to exclude the team field
         NewUserDto responseDto = new NewUserDto();
         responseDto.setId(newUser.getId());
         responseDto.setCoinBalance(newUser.getCoinBalance());
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setCoinBalance(user.getCoinBalance()+configuration.getCoinPerLevel());
         userRepository.save(user);
 
-        // Map the user object to the response DTO in order to exclude the userId and teamId fields
+        // Map the user object to the response DTO in order to exclude the userId and team fields
         ProgressDto responseDto = new ProgressDto();
         responseDto.setLevel(user.getLevel());
         responseDto.setCoinBalance(user.getCoinBalance());

@@ -57,15 +57,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.flywaydb</groupId>-->
-<!--			<artifactId>flyway-core</artifactId>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.flywaydb</groupId>-->
-<!--			<artifactId>flyway-mysql</artifactId>-->
-<!--		</dependency>-->
-
 	</dependencies>
 
 	<build>
@@ -82,19 +73,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<!--			<plugin>-->
-<!--				<groupId>org.flywaydb</groupId>-->
-<!--				<artifactId>flyway-maven-plugin</artifactId>-->
-<!--				<version>9.15.2</version>-->
-<!--&lt;!&ndash;				<configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;					<user>databaseUser</user>&ndash;&gt;-->
-<!--&lt;!&ndash;					<password>databasePassword</password>&ndash;&gt;-->
-<!--&lt;!&ndash;					<schemas>&ndash;&gt;-->
-<!--&lt;!&ndash;						<schema>schemaName</schema>&ndash;&gt;-->
-<!--&lt;!&ndash;					</schemas>&ndash;&gt;-->
 
-<!--&lt;!&ndash;				</configuration>&ndash;&gt;-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 

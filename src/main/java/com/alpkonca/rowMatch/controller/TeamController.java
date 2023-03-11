@@ -4,6 +4,7 @@ import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.payload.CreateTeamDto;
 import com.alpkonca.rowMatch.payload.JoinTeamDto;
 import com.alpkonca.rowMatch.service.TeamService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -35,10 +36,7 @@ public class TeamController {
     @Operation(summary = "User joins an existent team")
     @PutMapping("/join")
     public ResponseEntity<Team> joinTeam(@RequestBody JoinTeamDto joinTeamDto){
-        //Map the joinTeamDto to userId and teamId
-        int userId = joinTeamDto.getUserId();
-        int teamId = joinTeamDto.getTeamId();
-        return new ResponseEntity<>(teamService.joinTeam(userId, teamId), HttpStatus.OK);
+        return new ResponseEntity<>(teamService.joinTeam(joinTeamDto.getUserId(), joinTeamDto.getTeamId()), HttpStatus.OK);
     }
 
     // HTTP GET request to get specified number of teams randomly

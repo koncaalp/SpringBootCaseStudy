@@ -1,6 +1,5 @@
 package com.alpkonca.rowMatch.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,8 +16,8 @@ public class User {
     private int level;
     @Column(nullable = false)
     private int coinBalance;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teamId", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY) // Many users can be in one team but one user can be in only one team, fetch type is lazy because we don't need to fetch the team data everytime we fetch the user data
+    @JoinColumn(name = "teamId", nullable = true) // The teamId column is the foreign key column in the users table
     private Team team;
 
     public User(int id, int level, int coinBalance, Team team) {

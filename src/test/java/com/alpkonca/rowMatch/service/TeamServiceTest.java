@@ -6,8 +6,6 @@ import com.alpkonca.rowMatch.exception.UniqueFieldException;
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.repository.TeamRepository;
-
-
 import com.alpkonca.rowMatch.service.impl.TeamServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;

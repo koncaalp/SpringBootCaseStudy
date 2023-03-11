@@ -1,15 +1,14 @@
 package com.alpkonca.rowMatch.payload;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+// This DTO is used to create a new team as the create team endpoint requires a name and a userId
 @Data
 public class CreateTeamDto {
-    @NotBlank(message = "name must be sent and cannot be empty")
+    @NotBlank(message = "name must be sent and cannot be empty") // validator
     private String name;
 
-    @Min(value = 1, message = "userId must be sent and cannot be empty")
     private int userId;
 
 }

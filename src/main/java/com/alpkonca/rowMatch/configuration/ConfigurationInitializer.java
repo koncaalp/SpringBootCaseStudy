@@ -2,8 +2,8 @@ package com.alpkonca.rowMatch.configuration;
 
 import com.alpkonca.rowMatch.model.Configuration;
 import com.alpkonca.rowMatch.service.ConfigurationService;
+
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component

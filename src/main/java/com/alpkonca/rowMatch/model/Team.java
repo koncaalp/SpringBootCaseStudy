@@ -1,9 +1,6 @@
 package com.alpkonca.rowMatch.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-
 import lombok.Data;
 
 
@@ -16,7 +13,6 @@ public class Team {
     private int id;
 
     @Column(nullable = false, unique = true)
-    //@NotBlank(message = "name must be sent and cannot be empty") // Validation for the name field to ensure that it is not null, empty, or whitespace
     private String name;
 
     @Column(nullable = false)
