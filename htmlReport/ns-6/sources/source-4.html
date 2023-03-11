@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ProgressDto</title>
+  <title>Coverage Report > NewUserDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.payload</a>
 </div>
 
-<h1>Coverage Summary for Class: ProgressDto (com.alpkonca.rowMatch.payload)</h1>
+<h1>Coverage Summary for Class: NewUserDto (com.alpkonca.rowMatch.payload)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ProgressDto</td>
+  <td class="name">NewUserDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (4/4)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (4/4)
   </span>
 </td>
 </tr>
@@ -78,12 +78,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import lombok.Data;
 &nbsp;
-<b class="fc">&nbsp;@Data</b>
-&nbsp;public class ProgressDto {
+&nbsp;// This DTO is used to give proper response with only necessary information when a new user is created, teamId is excluded since it is not asked in the requirements
+<b class="fc">&nbsp;@Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString</b>
+&nbsp;public class NewUserDto {
+<b class="fc">&nbsp;    private int id;</b>
 <b class="fc">&nbsp;    private int level;</b>
 <b class="fc">&nbsp;    private int coinBalance;</b>
-&nbsp;
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -108,7 +108,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

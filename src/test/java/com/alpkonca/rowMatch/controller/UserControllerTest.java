@@ -1,5 +1,6 @@
 package com.alpkonca.rowMatch.controller;
 
+import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
 import com.alpkonca.rowMatch.service.impl.TeamServiceImpl;
@@ -68,6 +69,21 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.level", is(progressDto.getLevel())))
                 .andExpect(jsonPath("$.coinBalance", is(progressDto.getCoinBalance())));
+    }
+
+    // Test to check if the HTTP PUT request to update the level of a user is handled correctly when the user with the given id does not exist
+    @Test
+    public void testUpdateLevel_whenUserDoesNotExist_thenReturnNotFound() throws Exception {
+        // Arrange
+        int userId = 1;
+        when(userService.updateLevel(userId)).thenThrow(new ResourceWithFieldNotFoundException("User", "id", 0)); // Mock the user service to return null when the updateLevel method is invoked
+        // Act
+        // Send the HTTP PUT request to update the level of a user, map the team object to JSON
+        mockMvc.perform(put("/users/updateLevel/{id}", userId))
+                // Assert
+                // Check if the HTTP status is NOT_FOUND
+                .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.message", is("User not found with id : '0'")));
     }
 
 }

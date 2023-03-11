@@ -2,6 +2,7 @@ package com.alpkonca.rowMatch.service;
 
 import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.model.Configuration;
+import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.model.User;
 import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
@@ -35,12 +36,13 @@ public class UserServiceTest {
     private UserServiceImpl userService;
 
     // So that the test methods can reach the initialized user object in the setUp method
+    private Team team;
     private User user;
 
     // To initialize the user object before each test method
     @BeforeEach
     public void setUp() {
-        user = new User(1, 1, 5000,0);
+        user = new User(1, 1, 5000,null);
     }
 
     // Test to check if the createUser method is handled correctly when the input is valid
@@ -143,7 +145,8 @@ public class UserServiceTest {
     @Test
     public void testIsMemberOfTeam_whenUserHasTeam_thenReturnTrue() {
         // Arrange
-        user.setTeamId(1);
+        team = new Team(1, "First team", 1);
+        user.setTeam(team);
 
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user)); // To provide mock implementation of the user repository method to return the user object when the findById method is called with the userId
 

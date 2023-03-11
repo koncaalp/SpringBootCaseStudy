@@ -16,22 +16,23 @@ public class Team {
     private int id;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "name must be sent and cannot be empty") // Validation for the name field to ensure that it is not null, empty, or whitespace
+    //@NotBlank(message = "name must be sent and cannot be empty") // Validation for the name field to ensure that it is not null, empty, or whitespace
     private String name;
+
     @Column(nullable = false)
     private int memberCount;
-    @Column(nullable = false)
-    @Min(value = 1, message = "creatorId must be sent and be greater than 0") // Validation for the creatorId field to ensure that it is greater than 0
-    private int creatorId;
 
-    public Team(int id, String name, int memberCount, int creatorId) {
+    public Team() {
+    }
+
+    public Team(int id, String name, int memberCount) {
         this.id = id;
         this.name = name;
         this.memberCount = memberCount;
-        this.creatorId = creatorId;
     }
 
-    public Team() {
+    public Team(String name) {
+        this.name = name;
         memberCount = 1;
     } // memberCount is set to 1 by default since the creator is already the only member of the team
 

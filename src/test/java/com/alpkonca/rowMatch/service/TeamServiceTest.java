@@ -45,8 +45,8 @@ public class TeamServiceTest {
     // To initialize a team object before each test method
     @BeforeEach
     public void setUp() {
-        team = new Team(1, "First team", 1, 1);
-        userId = team.getCreatorId();
+        team = new Team(0,"First team", 1);
+        userId = 1;
     }
 
     // Test to check if the createTeam method is handled correctly when the input is valid
@@ -60,26 +60,24 @@ public class TeamServiceTest {
         Mockito.when(teamRepository.save(team)).thenReturn(team);
 
         // Act
-        Team result = teamService.createTeam(userId, team); // Call the createTeam method of the team service with userId and team
+        Team result = teamService.createTeam(userId, team.getName()); // Call the createTeam method of the team service with userId and team name
 
         // Assert
         // Check if the returned team object is the same as the team object that was created in the setUp method
         assertEquals (result.getId(),team.getId());
         assertEquals (result.getName(),team.getName());
         assertEquals (result.getMemberCount(),team.getMemberCount());
-        assertEquals (result.getCreatorId(),team.getCreatorId());
     }
 
     // Test to check if the createTeam method is handled correctly when a team with the same name already exists
     @Test
     public void testCreateTeam_whenNameIsDuplicate_thenThrowUniqueFieldException() {
         // Arrange
-        Team existingTeam = new Team(2, "First team", 3, 3); // Create an existing team object with the same name as the team object that was created in the setUp method
-
+        Team existingTeam = new Team(2,"First team", 3); // Create an existing team object with the same name as the team object that was created in the setUp method
         Mockito.when(teamRepository.findByName(team.getName())).thenReturn(existingTeam); // Mock the findByName method of the team repository to return the existing team object
 
         // Act and Assert
-        assertThrows(UniqueFieldException.class, () -> {teamService.createTeam(userId, team);}); // Check if the createTeam method of the team service throws a UniqueFieldException when the team to be created has the same name as the existing team
+        assertThrows(UniqueFieldException.class, () -> {teamService.createTeam(userId, team.getName());}); // Check if the createTeam method of the team service throws a UniqueFieldException when the team to be created has the same name as the existing team
     }
 
     // Test to check if the createTeam method is handled correctly when the user already has a team
@@ -91,7 +89,7 @@ public class TeamServiceTest {
         Mockito.when(userService.isMemberOfTeam(userId)).thenReturn(true);
 
         // Act and Assert
-        assertThrows(RuntimeException.class, () -> {teamService.createTeam(userId, team);}); // Check if the createTeam method of the team service throws a RuntimeException when the user already has a team
+        assertThrows(RuntimeException.class, () -> {teamService.createTeam(userId, team.getName());}); // Check if the createTeam method of the team service throws a RuntimeException when the user already has a team
     }
 
     // Test to check if the createTeam method is handled correctly when the user's balance is insufficient
@@ -104,7 +102,8 @@ public class TeamServiceTest {
         Mockito.when(userService.checkBalance(userId, configuration.getTeamCreationCost())).thenReturn(false);
 
         // Act and Assert
-        assertThrows(InsufficientBalanceException.class, () -> {teamService.createTeam(userId, team);}); // Check if the createTeam method of the team service throws an InsufficientBalanceException when the user's balance is insufficient
+        assertThrows(InsufficientBalanceException.class, () -> {teamService.createTeam(userId, team.getName());}); // Check if the createTeam method of the team service throws an InsufficientBalanceException when the user's balance is insufficient
+
     }
 
     // Test to check if the joinTeam method is handled correctly when the input is valid
@@ -127,7 +126,6 @@ public class TeamServiceTest {
         assertEquals (result.getId(),team.getId());
         assertEquals (result.getName(),team.getName());
         assertEquals (result.getMemberCount(),team.getMemberCount());
-        assertEquals (result.getCreatorId(),team.getCreatorId());
     }
 
     // Test to check if the joinTeam method is handled correctly when the user already has a team
@@ -164,16 +162,16 @@ public class TeamServiceTest {
         // Create a list of 11 teams
         List<Team> teams = new ArrayList<>();
         teams.add(team);
-        teams.add(new Team(2, "Second team", 7, 2));
-        teams.add(new Team(3, "Third team", 3, 1));
-        teams.add(new Team(4, "Fourth team", 4, 4));
-        teams.add(new Team(5, "Fifth team", 8, 5));
-        teams.add(new Team(6, "Sixth team", 6, 2));
-        teams.add(new Team(7, "Seventh team", 5, 1));
-        teams.add(new Team(8, "Eighth team", 2, 3));
-        teams.add(new Team(9, "Ninth team", 5, 2));
-        teams.add(new Team(10, "Tenth team", 6, 6));
-        teams.add(new Team(11, "Eleventh team", 7, 1));
+        teams.add(new Team(2, "Second team", 7));
+        teams.add(new Team(3, "Third team", 3));
+        teams.add(new Team(4, "Fourth team", 4));
+        teams.add(new Team(5, "Fifth team", 8));
+        teams.add(new Team(6, "Sixth team", 6));
+        teams.add(new Team(7, "Seventh team", 5));
+        teams.add(new Team(8, "Eighth team", 2));
+        teams.add(new Team(9, "Ninth team", 5));
+        teams.add(new Team(10, "Tenth team", 6));
+        teams.add(new Team(11, "Eleventh team", 7));
 
         // Mock the necessary methods of the team repository and configuration to return the desired values for this scenario
         Mockito.when(teamRepository.findByMemberCountLessThan(20)).thenReturn(teams);
@@ -196,12 +194,12 @@ public class TeamServiceTest {
         // Create a list of 7 teams
         List<Team> teams = new ArrayList<>();
         teams.add(team);
-        teams.add(new Team(2, "Second team", 7, 2));
-        teams.add(new Team(3, "Third team", 3, 1));
-        teams.add(new Team(4, "Fourth team", 4, 4));
-        teams.add(new Team(5, "Fifth team", 8, 5));
-        teams.add(new Team(6, "Sixth team", 6, 2));
-        teams.add(new Team(7, "Seventh team", 5, 1));
+        teams.add(new Team(2, "Second team", 7));
+        teams.add(new Team(3, "Third team", 3));
+        teams.add(new Team(4, "Fourth team", 4));
+        teams.add(new Team(5, "Fifth team", 8));
+        teams.add(new Team(6, "Sixth team", 6));
+        teams.add(new Team(7, "Seventh team", 5));
 
         // Mock the necessary methods of the team repository and configuration to return the desired values for this scenario
         Mockito.when(teamRepository.findByMemberCountLessThan(20)).thenReturn(teams);
@@ -213,7 +211,7 @@ public class TeamServiceTest {
 
         // Assert
         // Check if the returned list contains 7 unique teams by adding them to a HashSet
-        Set<Team> uniqueTeams = new HashSet<>(teams);
+        Set<Team> uniqueTeams = new HashSet<>(result);
         assertEquals(7, uniqueTeams.size());
     }
 

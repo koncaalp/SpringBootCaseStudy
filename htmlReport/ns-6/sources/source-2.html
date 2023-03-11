@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > JoinTeamDto</title>
+  <title>Coverage Report > ErrorResponse</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.payload</a>
 </div>
 
-<h1>Coverage Summary for Class: JoinTeamDto (com.alpkonca.rowMatch.payload)</h1>
+<h1>Coverage Summary for Class: ErrorResponse (com.alpkonca.rowMatch.payload)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">JoinTeamDto</td>
+  <td class="name">ErrorResponse</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (5/5)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (9/9)
   </span>
 </td>
 </tr>
@@ -76,16 +76,40 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.payload;
 &nbsp;
-&nbsp;import lombok.Data;
+&nbsp;import java.util.Date;
 &nbsp;
-<b class="fc">&nbsp;@Data</b>
-&nbsp;public class JoinTeamDto {
-<b class="fc">&nbsp;    private int userId;</b>
-<b class="fc">&nbsp;    private int teamId;</b>
+&nbsp;// This class is used to create a proper response with necessary information when an error occurs
+&nbsp;
+&nbsp;public class ErrorResponse {
+&nbsp;    private Date timestamp;
+&nbsp;    private String errorDetails;
+&nbsp;    private String errorCode;
+&nbsp;    private String message;
 &nbsp;
 &nbsp;
+<b class="fc">&nbsp;    public ErrorResponse(Date timestamp, String errorDetails, String errorCode, String message) {</b>
+<b class="fc">&nbsp;        this.timestamp = timestamp;</b>
+<b class="fc">&nbsp;        this.errorDetails = errorDetails;</b>
+<b class="fc">&nbsp;        this.errorCode = errorCode;</b>
+<b class="fc">&nbsp;        this.message = message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Date getTimestamp() {
+<b class="fc">&nbsp;        return timestamp;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getErrorDetails() {
+<b class="fc">&nbsp;        return errorDetails;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getErrorCode() {
+<b class="fc">&nbsp;        return errorCode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getMessage() {
+<b class="fc">&nbsp;        return message;</b>
+&nbsp;    }
 &nbsp;}
-&nbsp;
 </code>
 </pre>
 </div>
@@ -109,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

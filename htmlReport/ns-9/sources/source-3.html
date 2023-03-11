@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ConfigurationService</title>
+  <title>Coverage Report > TeamService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,14 +21,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.service</a>
 </div>
 
-<h1>Coverage Summary for Class: ConfigurationService (com.alpkonca.rowMatch.service)</h1>
+<h1>Coverage Summary for Class: TeamService (com.alpkonca.rowMatch.service)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">ConfigurationService</td>
+  <td class="name">TeamService</td>
 </tr>
 
 </table>
@@ -40,10 +40,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.service;
 &nbsp;
-&nbsp;import com.alpkonca.rowMatch.model.Configuration;
+&nbsp;import com.alpkonca.rowMatch.model.Team;
 &nbsp;
-&nbsp;public interface ConfigurationService {
-&nbsp;    Configuration fetchConfigurations();
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;// Team service interface to achieve abstraction and loose coupling
+&nbsp;public interface TeamService {
+&nbsp;    Team createTeam(int userId, String name);
+&nbsp;    Team joinTeam(int userId, int teamId);
+&nbsp;    List&lt;Team&gt; getTeams();
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -68,7 +74,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

@@ -59,10 +59,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    62.5%
   </span>
   <span class="absValue">
-    (4/4)
+    (5/8)
   </span>
 </td>
 </tr>
@@ -81,20 +81,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.alpkonca.rowMatch.service.ConfigurationService;
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;
-&nbsp;import java.util.Optional;
+&nbsp;import java.util.List;
 &nbsp;
-&nbsp;@Service
+&nbsp;
+&nbsp;@Service // Service method for business logic of Configuration
 &nbsp;public class ConfigurationServiceImpl implements ConfigurationService {
-&nbsp;    private final ConfigurationRepository configurationRepository;
 &nbsp;
+&nbsp;    // To provide the configuration repository to the service
+&nbsp;    private final ConfigurationRepository configurationRepository;
 <b class="fc">&nbsp;    public ConfigurationServiceImpl(ConfigurationRepository configurationRepository) {</b>
 <b class="fc">&nbsp;        this.configurationRepository = configurationRepository;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to fetch the configuration from the database
 &nbsp;    public Configuration fetchConfigurations() {
-&nbsp;        // Fetch the configuration from the database
-<b class="fc">&nbsp;        Configuration configurations = configurationRepository.findById(1).orElseThrow(()-&gt;new RuntimeException(&quot;Configuration not found&quot;));</b>
-<b class="fc">&nbsp;        return configurations;</b>
+<b class="fc">&nbsp;        List&lt;Configuration&gt; configurations = configurationRepository.findFirstByOrderByIdAsc();</b>
+<b class="fc">&nbsp;        if (configurations.isEmpty()) {</b>
+<b class="nc">&nbsp;            Configuration configuration = new Configuration(1, 5000, 25, 20, 1000, 10);</b>
+<b class="nc">&nbsp;            configurationRepository.save(configuration);</b>
+<b class="nc">&nbsp;            return configuration;</b>
+&nbsp;        }
+&nbsp;        else {
+<b class="fc">&nbsp;            return configurations.get(0);</b>
+&nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;}
@@ -121,7 +130,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

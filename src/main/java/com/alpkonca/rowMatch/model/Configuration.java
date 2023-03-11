@@ -26,8 +26,15 @@ public class Configuration {
     @Column(nullable = false)
     private int numberOfTeamsToGet;
 
-
     public Configuration() {
     }
 
+    public Configuration(int id, int startingCoinBalance, int coinPerLevel, int maxTeamMemberCount, int teamCreationCost, int numberOfTeamsToGet) {
+        this.id = id;
+        this.startingCoinBalance = startingCoinBalance;
+        this.coinPerLevel = coinPerLevel;
+        this.maxTeamMemberCount = maxTeamMemberCount;
+        this.teamCreationCost = teamCreationCost;
+        this.numberOfTeamsToGet = numberOfTeamsToGet;
+    }
 }

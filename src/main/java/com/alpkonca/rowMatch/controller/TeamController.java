@@ -1,6 +1,7 @@
 package com.alpkonca.rowMatch.controller;
 
 import com.alpkonca.rowMatch.model.Team;
+import com.alpkonca.rowMatch.payload.CreateTeamDto;
 import com.alpkonca.rowMatch.payload.JoinTeamDto;
 import com.alpkonca.rowMatch.service.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,8 +27,8 @@ public class TeamController {
     // HTTP POST request to create a new team
     @Operation(summary = "User creates a new team")
     @PostMapping("/create")
-    public ResponseEntity<Team> createUser(@Valid @RequestBody Team team){
-        return new ResponseEntity<>(teamService.createTeam(team.getCreatorId(), team), HttpStatus.CREATED);
+    public ResponseEntity<Team> createUser(@Valid @RequestBody CreateTeamDto createTeamDto){
+        return new ResponseEntity<>(teamService.createTeam( createTeamDto.getUserId(), createTeamDto.getName()), HttpStatus.CREATED);
     }
 
     // HTTP PUT request to join a team

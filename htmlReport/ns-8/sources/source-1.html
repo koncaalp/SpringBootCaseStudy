@@ -43,7 +43,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.alpkonca.rowMatch.model.Configuration;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
 &nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;// ORM interface for Configuration table to implement CRUD operations and map Configuration object to database table
 &nbsp;public interface ConfigurationRepository extends JpaRepository&lt;Configuration, Integer&gt; {
+&nbsp;    List&lt;Configuration&gt; findFirstByOrderByIdAsc();
 &nbsp;}
 </code>
 </pre>
@@ -68,7 +72,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

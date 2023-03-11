@@ -56,7 +56,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">User$HibernateProxy$ffQCTUJ9</td>
+    <td class="name">User$HibernateProxy$Du8gdgju</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -86,10 +86,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.model;
 &nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
 &nbsp;import jakarta.persistence.*;
 &nbsp;import lombok.Data;
 &nbsp;
-<b class="fc">&nbsp;@Data</b>
+&nbsp;
+<b class="fc">&nbsp;@Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString</b>
 &nbsp;@Entity
 &nbsp;@Table(name = &quot;users&quot;)
 &nbsp;public class User {
@@ -101,18 +103,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    private int level;</b>
 &nbsp;    @Column(nullable = false)
 <b class="fc">&nbsp;    private int coinBalance;</b>
-&nbsp;    @Column(nullable = false)
-<b class="fc">&nbsp;    private int teamId;</b>
+&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+&nbsp;    @JoinColumn(name = &quot;teamId&quot;, nullable = true)
+<b class="fc">&nbsp;    private Team team;</b>
 &nbsp;
-<b class="fc">&nbsp;    public User(int id, int level, int coinBalance, int teamId) {</b>
+<b class="fc">&nbsp;    public User(int id, int level, int coinBalance, Team team) {</b>
 <b class="fc">&nbsp;        this.id = id;</b>
 <b class="fc">&nbsp;        this.level = level;</b>
 <b class="fc">&nbsp;        this.coinBalance = coinBalance;</b>
-<b class="fc">&nbsp;        this.teamId = teamId;</b>
+<b class="fc">&nbsp;        this.team = team;</b>
 &nbsp;    }
 &nbsp;
 <b class="fc">&nbsp;    public User() {</b>
-<b class="fc">&nbsp;        level = 1;</b>
+<b class="fc">&nbsp;        level = 1; // Since the logical starting value of the level field is 1, and it is not likely to change, set it to 1 in the constructor</b>
 &nbsp;    }
 &nbsp;
 &nbsp;
@@ -140,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

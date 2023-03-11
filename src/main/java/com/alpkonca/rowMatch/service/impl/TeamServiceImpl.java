@@ -37,17 +37,17 @@ public class TeamServiceImpl implements  TeamService{
     @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes
                    // multiple database operations, it is necessary to make use of transactional annotation to ensure
                    // that all operations are completed successfully or all of them are rolled back.
-    public Team createTeam(int userId, Team team) {
-        Team teamWithSameName = teamRepository.findByName(team.getName()); // Check if there is a team with the same name
+    public Team createTeam(int userId, String name) {
+        Team teamWithSameName = teamRepository.findByName(name); // Check if there is a team with the same name
         if (teamWithSameName != null) {
-            throw new UniqueFieldException("Team", "name", team.getName());
+            throw new UniqueFieldException("Team", "name", name);
         } else {
             if (userService.isMemberOfTeam(userId)) {
                 throw new RuntimeException("User is already a member of a team");
             } else { // All checks are passed
                 if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {
-                    Team newTeam = teamRepository.save(team);
-                    userService.setTeam(userId, newTeam.getId());
+                    Team newTeam = teamRepository.save(new Team(name));
+                    userService.setTeam(userId, newTeam);
                     userService.deductFromBalance(userId, configuration.getTeamCreationCost());
                     return newTeam;
                 }
@@ -77,7 +77,7 @@ public class TeamServiceImpl implements  TeamService{
             throw new RuntimeException("Team is full");
         }
         else { // All checks are passed
-            userService.setTeam(userId, teamId);
+            userService.setTeam(userId, team);
             team.setMemberCount(team.getMemberCount() + 1);
             teamRepository.save(team);
             return team;

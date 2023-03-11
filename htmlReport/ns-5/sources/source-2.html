@@ -56,7 +56,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 </tr>
   <tr>
-    <td class="name">Team$HibernateProxy$BgaazKlZ</td>
+    <td class="name">Team$HibernateProxy$BIlLCnjI</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -89,39 +89,38 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import jakarta.persistence.*;
 &nbsp;import jakarta.validation.constraints.Min;
 &nbsp;import jakarta.validation.constraints.NotBlank;
-&nbsp;import jakarta.validation.constraints.NotEmpty;
-&nbsp;import jakarta.validation.constraints.NotNull;
+&nbsp;
 &nbsp;import lombok.Data;
 &nbsp;
-&nbsp;import java.util.Objects;
 &nbsp;
-<b class="fc">&nbsp;@Data</b>
+<b class="fc">&nbsp;@Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString</b>
 &nbsp;@Entity
 &nbsp;@Table(name = &quot;teams&quot;)
 &nbsp;public class Team {
-&nbsp;
 &nbsp;    @Id
 &nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
 <b class="fc">&nbsp;    private int id;</b>
+&nbsp;
 &nbsp;    @Column(nullable = false, unique = true)
-&nbsp;    @NotBlank(message = &quot;name must be sent and cannot be empty&quot;)
+&nbsp;    //@NotBlank(message = &quot;name must be sent and cannot be empty&quot;) // Validation for the name field to ensure that it is not null, empty, or whitespace
 <b class="fc">&nbsp;    private String name;</b>
+&nbsp;
 &nbsp;    @Column(nullable = false)
 <b class="fc">&nbsp;    private int memberCount;</b>
-&nbsp;    @Column(nullable = false)
-&nbsp;    @Min(value = 1, message = &quot;creatorId must be sent and be greater than 0&quot;)
-<b class="fc">&nbsp;    private int creatorId;</b>
 &nbsp;
-<b class="fc">&nbsp;    public Team(int id, String name, int memberCount, int creatorId) {</b>
+<b class="fc">&nbsp;    public Team() {</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Team(int id, String name, int memberCount) {</b>
 <b class="fc">&nbsp;        this.id = id;</b>
 <b class="fc">&nbsp;        this.name = name;</b>
 <b class="fc">&nbsp;        this.memberCount = memberCount;</b>
-<b class="fc">&nbsp;        this.creatorId = creatorId;</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public Team() {</b>
+<b class="fc">&nbsp;    public Team(String name) {</b>
+<b class="fc">&nbsp;        this.name = name;</b>
 <b class="fc">&nbsp;        memberCount = 1;</b>
-&nbsp;    }
+&nbsp;    } // memberCount is set to 1 by default since the creator is already the only member of the team
 &nbsp;
 &nbsp;}
 </code>
@@ -147,7 +146,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.alpkonca.rowMatch.service.impl;
 
+import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
 import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 import com.alpkonca.rowMatch.model.Configuration;
+import com.alpkonca.rowMatch.model.Team;
 import com.alpkonca.rowMatch.model.User;
 import com.alpkonca.rowMatch.payload.NewUserDto;
 import com.alpkonca.rowMatch.payload.ProgressDto;
 import com.alpkonca.rowMatch.repository.UserRepository;
 import com.alpkonca.rowMatch.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 
@@ -73,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public boolean isMemberOfTeam(int userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
-        if(user.getTeamId() == 0){ // Return false if the user is not in a team -> teamId is 0, true otherwise
+        if(user.getTeam() == null){
             return false;
         }
         else {
@@ -83,16 +86,24 @@ public class UserServiceImpl implements UserService {
 
     // Method to set the teamId of the user; check if the user exists; set the teamId of the user
     @Override
-    public void setTeam(int userId, int teamId) {
+    @Transactional // In case of multiple rapid requests to the server, the data read from the database
+                   // may be outdated and both requests may be processed with the same initial data. This would result in only
+                   // one request's result being committed and the other's result being discarded. To prevent this, the
+                   // @Transactional annotation is used to achieve atomicity.
+    public void setTeam(int userId, Team team) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object
 
-        user.setTeamId(teamId);
+        user.setTeam(team);
         userRepository.save(user);
     }
 
     // Method to deduct coins from the balance of the user; check if the user exists; deduct the amount set in configurations from the user's coin balance
     @Override
+    @Transactional // In case of multiple rapid requests to the server, the data read from the database
+                   // may be outdated and both requests may be processed with the same initial data. This would result in only
+                   // one request's result being committed and the other's result being discarded. To prevent this, the
+                   // @Transactional annotation is used to achieve atomicity.
     public void deductFromBalance(int userId, int balanceToDeduct) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceWithFieldNotFoundException("User", "id",userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object

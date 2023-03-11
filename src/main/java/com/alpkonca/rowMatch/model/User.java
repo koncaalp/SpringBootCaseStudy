@@ -17,14 +17,15 @@ public class User {
     private int level;
     @Column(nullable = false)
     private int coinBalance;
-    @Column(nullable = false)
-    private int teamId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teamId", nullable = true)
+    private Team team;
 
-    public User(int id, int level, int coinBalance, int teamId) {
+    public User(int id, int level, int coinBalance, Team team) {
         this.id = id;
         this.level = level;
         this.coinBalance = coinBalance;
-        this.teamId = teamId;
+        this.team = team;
     }
 
     public User() {

@@ -40,88 +40,88 @@ Current scope:     <a href="../../index.html">all classes</a>
   <td class="name">Configuration</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    88.9%
   </span>
   <span class="absValue">
-    (8/8)
+    (8/9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    56.2%
   </span>
   <span class="absValue">
-    (9/9)
+    (9/16)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">Configuration$HibernateProxy$RBsoGVq9</td>
+    <td class="name">Configuration$HibernateProxy$sSMdKaJg</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$7d0dK60U</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$1mgmaYtT</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$adIhcrcm</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$7B1u8KC1</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$c2wwCbHX</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$B90pTTef</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$D15r7Nng</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$CLqqTTZB</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$dLidipio</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$CoRldO0m</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$hsPl3TY8</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$FHpyFZow</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$l5mUIU4Q</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$fXZoRQqJ</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$N2OiZopO</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$j1JvsDwu</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$OVCpgiwY</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$pEmCWEoQ</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$T1nkoQnI</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$R288Kplb</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$TbT4o9wA</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$rAoBFznK</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$xL0Nfsav</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$sbBNFwng</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$XPyZ4952</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$tnm2cJkD</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$ZFTGj5dU</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$uIwGPikK</td>
   </tr>
   <tr>
-    <td class="name">Configuration$MockitoMock$y0PyPoMJ$auxiliary$zkGA8Kx2</td>
+    <td class="name">Configuration$MockitoMock$jDYO4YWd$auxiliary$wo7e2KBu</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    88.9%
   </span>
   <span class="absValue">
-    (8/8)
+    (8/9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    56.2%
   </span>
   <span class="absValue">
-    (9/9)
+    (9/16)
   </span>
 </td>
 </tr>
@@ -141,12 +141,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import lombok.Data;
 &nbsp;import org.springframework.stereotype.Component;
 &nbsp;
+&nbsp;// Configuration model is used to store the configuration of the game
 <b class="fc">&nbsp;@Data</b>
 &nbsp;@Entity
 &nbsp;@Component
 &nbsp;@Table(name = &quot;configuration&quot;)
 &nbsp;public class Configuration {
-<b class="fc">&nbsp;    @Id</b>
+<b class="fc">&nbsp;    @Id //Since there will be only one configuration, id is set to 1 and auto increment is not implemented</b>
 <b class="fc">&nbsp;    private int id = 1;</b>
 &nbsp;    @Column(nullable = false)
 <b class="fc">&nbsp;    private int startingCoinBalance;</b>
@@ -159,10 +160,17 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    @Column(nullable = false)
 <b class="fc">&nbsp;    private int numberOfTeamsToGet;</b>
 &nbsp;
-&nbsp;
 <b class="fc">&nbsp;    public Configuration() {</b>
 &nbsp;    }
 &nbsp;
+<b class="nc">&nbsp;    public Configuration(int id, int startingCoinBalance, int coinPerLevel, int maxTeamMemberCount, int teamCreationCost, int numberOfTeamsToGet) {</b>
+<b class="nc">&nbsp;        this.id = id;</b>
+<b class="nc">&nbsp;        this.startingCoinBalance = startingCoinBalance;</b>
+<b class="nc">&nbsp;        this.coinPerLevel = coinPerLevel;</b>
+<b class="nc">&nbsp;        this.maxTeamMemberCount = maxTeamMemberCount;</b>
+<b class="nc">&nbsp;        this.teamCreationCost = teamCreationCost;</b>
+<b class="nc">&nbsp;        this.numberOfTeamsToGet = numberOfTeamsToGet;</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -187,7 +195,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

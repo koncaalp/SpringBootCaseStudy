@@ -51,7 +51,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (38/38)
+    (39/39)
   </span>
 </td>
 </tr>
@@ -59,22 +59,22 @@ Current scope:     <a href="../../index.html">all classes</a>
     <td class="name">TeamServiceImpl$$SpringCGLIB$$0</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn$auxiliary$3wy4PVw0</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4$auxiliary$azD7b6F2</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn$auxiliary$4kbEDXac</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4$auxiliary$Gsy1cTns</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn$auxiliary$dA0lddyS</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4$auxiliary$HDtNSLfz</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn$auxiliary$DvrjiN73</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4$auxiliary$hGcqt6FW</td>
   </tr>
   <tr>
-    <td class="name">TeamServiceImpl$MockitoMock$XRHJeaIn$auxiliary$Edpg0EHZ</td>
+    <td class="name">TeamServiceImpl$MockitoMock$Txt6E5w4$auxiliary$stCXN1aS</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -91,7 +91,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (38/38)
+    (39/39)
   </span>
 </td>
 </tr>
@@ -114,7 +114,6 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import com.alpkonca.rowMatch.service.TeamService;
 &nbsp;import com.alpkonca.rowMatch.service.UserService;
 &nbsp;import jakarta.transaction.Transactional;
-&nbsp;import org.springframework.scheduling.annotation.Async;
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;
 &nbsp;import java.util.ArrayList;
@@ -122,36 +121,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import java.util.List;
 &nbsp;import java.util.Random;
 &nbsp;
+&nbsp;// Service method for business logic of Team
 &nbsp;@Service
 &nbsp;public class TeamServiceImpl implements  TeamService{
+&nbsp;    // To provide the team repository, user service and configuration to the service
 &nbsp;    private TeamRepository teamRepository;
 &nbsp;    private UserService userService;
 &nbsp;    private final Configuration configuration;
-&nbsp;
-&nbsp;
-&nbsp;
 <b class="fc">&nbsp;    public TeamServiceImpl(TeamRepository teamRepository, UserService userService, Configuration configuration) {</b>
 <b class="fc">&nbsp;        this.teamRepository = teamRepository;</b>
 <b class="fc">&nbsp;        this.userService = userService;</b>
 <b class="fc">&nbsp;        this.configuration = configuration;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to create a new team; check if there is a team with the same name, check if the user is already a member
+&nbsp;    // of a team, check if the user has enough balance to create a team; if all the checks are passed, create a new team,
+&nbsp;    // set the users team to the new team and deduct the team creation cost from the users balance
 &nbsp;    @Override
-&nbsp;    @Transactional
-&nbsp;    public Team createTeam(int userId, Team team) {
-<b class="fc">&nbsp;        Team teamWithSameName = teamRepository.findByName(team.getName());</b>
+&nbsp;    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes
+&nbsp;                   // multiple database operations, it is necessary to make use of transactional annotation to ensure
+&nbsp;                   // that all operations are completed successfully or all of them are rolled back.
+&nbsp;    public Team createTeam(int userId, String name) {
+<b class="fc">&nbsp;        Team teamWithSameName = teamRepository.findByName(name); // Check if there is a team with the same name</b>
 <b class="fc">&nbsp;        if (teamWithSameName != null) {</b>
-<b class="fc">&nbsp;            throw new UniqueFieldException(&quot;Team&quot;, &quot;name&quot;, team.getName());</b>
+<b class="fc">&nbsp;            throw new UniqueFieldException(&quot;Team&quot;, &quot;name&quot;, name);</b>
 &nbsp;        } else {
 <b class="fc">&nbsp;            if (userService.isMemberOfTeam(userId)) {</b>
 <b class="fc">&nbsp;                throw new RuntimeException(&quot;User is already a member of a team&quot;);</b>
-&nbsp;            } else {
+&nbsp;            } else { // All checks are passed
 <b class="fc">&nbsp;                if (userService.checkBalance(userId, configuration.getTeamCreationCost())) {</b>
-<b class="fc">&nbsp;                    Team newTeam = teamRepository.save(team);</b>
-<b class="fc">&nbsp;                    userService.setTeam(userId, newTeam.getId());</b>
+<b class="fc">&nbsp;                    Team newTeam = teamRepository.save(new Team(name));</b>
+<b class="fc">&nbsp;                    userService.setTeam(userId, newTeam);</b>
 <b class="fc">&nbsp;                    userService.deductFromBalance(userId, configuration.getTeamCreationCost());</b>
 <b class="fc">&nbsp;                    return newTeam;</b>
-&nbsp;                } else {
+&nbsp;                }
+&nbsp;                else {
 <b class="fc">&nbsp;                    throw new InsufficientBalanceException(&quot;create&quot;,&quot;team&quot;);</b>
 &nbsp;                }
 &nbsp;            }
@@ -159,32 +163,42 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to join a team with the given user id and team id; check if the team exists,
+&nbsp;    // check if the user is already a member, check if the team is full; if all the checks are passed,
+&nbsp;    // set the users team to the given team and increment the member count of the team
 &nbsp;    @Override
-&nbsp;    @Transactional
+&nbsp;    @Transactional // It is annotated with @Transactional to enable transaction management. Since the method includes
+&nbsp;                   // multiple database operations, it is necessary to make use of transactional annotation to ensure that
+&nbsp;                   // all operations are completed successfully or all of them are rolled back.
 &nbsp;    public Team joinTeam(int userId, int teamId) {
-<b class="fc">&nbsp;        Team team = teamRepository.findById(teamId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;Team&quot;, &quot;id&quot;,teamId));</b>
+<b class="fc">&nbsp;        Team team = teamRepository.findById(teamId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;Team&quot;, &quot;id&quot;,teamId)); // If the team is not found, throw a ResourceWithFieldNotFoundException, necessary since the findById method returns an Optional object</b>
 <b class="fc">&nbsp;        if (userService.isMemberOfTeam(userId)) {</b>
 <b class="fc">&nbsp;            throw new RuntimeException(&quot;User is already a member of a team&quot;);</b>
-<b class="fc">&nbsp;        } else if (team.getMemberCount() &gt;= configuration.getMaxTeamMemberCount())</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (team.getMemberCount() &gt;= configuration.getMaxTeamMemberCount())</b>
 &nbsp;        {
 <b class="fc">&nbsp;            throw new RuntimeException(&quot;Team is full&quot;);</b>
 &nbsp;        }
-&nbsp;        else {
-<b class="fc">&nbsp;            userService.setTeam(userId, teamId);</b>
+&nbsp;        else { // All checks are passed
+<b class="fc">&nbsp;            userService.setTeam(userId, team);</b>
 <b class="fc">&nbsp;            team.setMemberCount(team.getMemberCount() + 1);</b>
 <b class="fc">&nbsp;            teamRepository.save(team);</b>
 <b class="fc">&nbsp;            return team;</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to get specified number of teams which have an empty spot randomly
 &nbsp;    @Override
 &nbsp;    public List&lt;Team&gt; getTeams() {
 <b class="fc">&nbsp;        Random rand = new Random();</b>
 &nbsp;        int index;
 <b class="fc">&nbsp;        int numberOfTeamsToGet = configuration.getNumberOfTeamsToGet();</b>
 <b class="fc">&nbsp;        List&lt;Team&gt; allAvailableTeams = teamRepository.findByMemberCountLessThan(configuration.getMaxTeamMemberCount());</b>
-<b class="fc">&nbsp;        if (allAvailableTeams.size() &gt; numberOfTeamsToGet) {</b>
+<b class="fc">&nbsp;        if (allAvailableTeams.size() &gt; numberOfTeamsToGet) { // If the number of teams which have an empty spot is greater than the number of teams to get, get the specified number of teams randomly</b>
 <b class="fc">&nbsp;            List&lt;Team&gt; reservoir = new ArrayList&lt;&gt;(numberOfTeamsToGet);</b>
+&nbsp;            // Randomly select indices from the list of teams which have an empty spot and add the teams with the selected indices to the reservoir
+&nbsp;            // Then remove the selected teams from the list of teams which have an empty spot
 <b class="fc">&nbsp;            for (int i = 0; i &lt; numberOfTeamsToGet; i++) {</b>
 <b class="fc">&nbsp;                index = rand.nextInt(allAvailableTeams.size());</b>
 <b class="fc">&nbsp;                reservoir.add(allAvailableTeams.get(index));</b>
@@ -192,11 +206,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            }
 <b class="fc">&nbsp;            return reservoir;</b>
 &nbsp;        }
-<b class="fc">&nbsp;        else if (allAvailableTeams.size() == 0) {</b>
-<b class="fc">&nbsp;            throw new NoResourcesFoundException(&quot;teams&quot;);</b>
+<b class="fc">&nbsp;        else if (allAvailableTeams.size() == 0) { // If there are no teams which have an empty spot</b>
+<b class="fc">&nbsp;            throw new NoResourcesFoundException(&quot;teams with empty spots&quot;);</b>
 &nbsp;        }
-&nbsp;        else {
-<b class="fc">&nbsp;            Collections.shuffle(allAvailableTeams);</b>
+&nbsp;        else { // If the number of teams which have an empty spot is less than the number of teams to get, return all the teams which have an empty spot in a random order
+<b class="fc">&nbsp;            Collections.shuffle(allAvailableTeams); // Shuffle the list of teams which have an empty spot</b>
 <b class="fc">&nbsp;            return allAvailableTeams;</b>
 &nbsp;        }
 &nbsp;
@@ -225,7 +239,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > InsufficientBalanceException</title>
+  <title>Coverage Report > UserController</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.alpkonca.rowMatch.exception</a>
+    <a href="../index.html">com.alpkonca.rowMatch.controller</a>
 </div>
 
-<h1>Coverage Summary for Class: InsufficientBalanceException (com.alpkonca.rowMatch.exception)</h1>
+<h1>Coverage Summary for Class: UserController (com.alpkonca.rowMatch.controller)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">InsufficientBalanceException</td>
+  <td class="name">UserController</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (4/4)
   </span>
 </td>
 </tr>
@@ -74,12 +74,43 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.exception;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.controller;
 &nbsp;
-&nbsp;public class InsufficientBalanceException extends RuntimeException {
-&nbsp;    public InsufficientBalanceException(String action, String resourceName) {
-<b class="fc">&nbsp;        super(String.format(&quot;Insufficient balance to %s %s&quot;, action, resourceName));</b>
+&nbsp;
+&nbsp;import com.alpkonca.rowMatch.payload.NewUserDto;
+&nbsp;import com.alpkonca.rowMatch.payload.ProgressDto;
+&nbsp;import com.alpkonca.rowMatch.service.UserService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;@RestController //This class is a REST controller that handles incoming HTTP requests and sends HTTP responses for user related requests.
+&nbsp;@RequestMapping(&quot;/users&quot;)
+&nbsp;public class UserController {
+&nbsp;
+&nbsp;    //To provide the team service to the controller
+&nbsp;    private UserService userService;
+<b class="fc">&nbsp;    public UserController(UserService userService) {</b>
+<b class="fc">&nbsp;        this.userService = userService;</b>
 &nbsp;    }
+&nbsp;
+&nbsp;    // HTTP POST request to create a new user
+&nbsp;    @PostMapping(&quot;/create&quot;)
+&nbsp;    @Operation(summary = &quot;Creates a new user&quot;)
+&nbsp;    public ResponseEntity&lt;NewUserDto&gt; createUser(){
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(userService.createUser(), HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // HTTP PUT request to level up the user
+&nbsp;    @PutMapping(&quot;/updateLevel/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Levels up the user&quot;)
+&nbsp;    public ResponseEntity&lt;ProgressDto&gt; updateLevel(@PathVariable(&quot;id&quot;) int userId){
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(userService.updateLevel(userId), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -104,7 +135,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

@@ -20,7 +20,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     // Method to fetch the configuration from the database
     public Configuration fetchConfigurations() {
         List<Configuration> configurations = configurationRepository.findFirstByOrderByIdAsc();
-        return configurations.get(0);
+        if (configurations.isEmpty()) {
+            Configuration configuration = new Configuration(1, 5000, 25, 20, 1000, 10);
+            configurationRepository.save(configuration);
+            return configuration;
+        }
+        else {
+            return configurations.get(0);
+        }
     }
 
 }

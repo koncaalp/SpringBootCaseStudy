@@ -29,16 +29,16 @@ Current scope:     <a href="../../index.html">all classes</a>
   <th class="name">Class</th>
 </tr>
   <tr>
-    <td class="name">TeamRepository$MockitoMock$9B5W21rI</td>
+    <td class="name">TeamRepository$MockitoMock$UrmivmNc</td>
   </tr>
   <tr>
-    <td class="name">TeamRepository$MockitoMock$9B5W21rI$auxiliary$4Pma925M</td>
+    <td class="name">TeamRepository$MockitoMock$UrmivmNc$auxiliary$grWfBNst</td>
   </tr>
   <tr>
-    <td class="name">TeamRepository$MockitoMock$9B5W21rI$auxiliary$C5MIxwNS</td>
+    <td class="name">TeamRepository$MockitoMock$UrmivmNc$auxiliary$NlA3hukJ</td>
   </tr>
   <tr>
-    <td class="name">TeamRepository$MockitoMock$9B5W21rI$auxiliary$ZVtF4G0X</td>
+    <td class="name">TeamRepository$MockitoMock$UrmivmNc$auxiliary$WQY9bf9Y</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -57,10 +57,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
+&nbsp;// ORM interface for Teams table to implement CRUD operations and map Team object to database table
 &nbsp;public interface TeamRepository extends JpaRepository&lt;Team, Integer&gt;
 &nbsp;{
-&nbsp;    List&lt;Team&gt; findByMemberCountLessThan(int memberCount);
-&nbsp;    Team findByName(String name);
+&nbsp;    List&lt;Team&gt; findByMemberCountLessThan(int memberCount); // JPA finder method to find teams with less than memberCount members
+&nbsp;    Team findByName(String name); // JPA finder method to find team with name
 &nbsp;}
 </code>
 </pre>
@@ -85,7 +86,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

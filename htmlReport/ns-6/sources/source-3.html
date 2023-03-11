@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > NewUserDto</title>
+  <title>Coverage Report > JoinTeamDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.payload</a>
 </div>
 
-<h1>Coverage Summary for Class: NewUserDto (com.alpkonca.rowMatch.payload)</h1>
+<h1>Coverage Summary for Class: JoinTeamDto (com.alpkonca.rowMatch.payload)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">NewUserDto</td>
+  <td class="name">JoinTeamDto</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (4/4)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (4/4)
+    (3/3)
   </span>
 </td>
 </tr>
@@ -78,12 +78,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import lombok.Data;
 &nbsp;
-<b class="fc">&nbsp;@Data</b>
-&nbsp;public class NewUserDto {
-<b class="fc">&nbsp;    private int id;</b>
-<b class="fc">&nbsp;    private int level;</b>
-<b class="fc">&nbsp;    private int coinBalance;</b>
+&nbsp;// This DTO is used to receive only userId and teamId fields from the request and send to the joinTeam method in the TeamController class
+<b class="fc">&nbsp;@Data // Generates boilerplate code for getters, setters, equals, hashCode, and toString</b>
+&nbsp;public class JoinTeamDto {
+<b class="fc">&nbsp;    private int userId;</b>
+<b class="fc">&nbsp;    private int teamId;</b>
+&nbsp;
+&nbsp;
 &nbsp;}
+&nbsp;
 </code>
 </pre>
 </div>
@@ -107,7 +110,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

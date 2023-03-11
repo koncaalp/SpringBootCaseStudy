@@ -48,39 +48,42 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    81.8%
+    78.9%
   </span>
   <span class="absValue">
-    (27/33)
+    (30/38)
   </span>
 </td>
 </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON</td>
+    <td class="name">UserServiceImpl$$SpringCGLIB$$0</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$aVrznIic</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$bf4YLoNV</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$94lpmqlt</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$lz2zrHoP</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$hzpUHtIf</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$O6fUV0p9</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$i6Pn4QCY</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$P0G55hiz</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$KDXx3KR2</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$s1UnMrNo</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$N0TzN9TJ</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$vz1g77Yp</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$OyE5OLko</td>
   </tr>
   <tr>
-    <td class="name">UserServiceImpl$MockitoMock$WCVIF3ON$auxiliary$zf85dn7V</td>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$Wwc8xVeu</td>
+  </tr>
+  <tr>
+    <td class="name">UserServiceImpl$MockitoMock$4FFxKxXS$auxiliary$Y7Z6CD6N</td>
   </tr>
 <tr>
   <td class="name"><strong>Total</strong></td>
@@ -94,10 +97,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    81.8%
+    78.9%
   </span>
   <span class="absValue">
-    (27/33)
+    (30/38)
   </span>
 </td>
 </tr>
@@ -110,33 +113,38 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.service.impl;
 &nbsp;
+&nbsp;import com.alpkonca.rowMatch.exception.InsufficientBalanceException;
 &nbsp;import com.alpkonca.rowMatch.exception.ResourceWithFieldNotFoundException;
 &nbsp;import com.alpkonca.rowMatch.model.Configuration;
+&nbsp;import com.alpkonca.rowMatch.model.Team;
 &nbsp;import com.alpkonca.rowMatch.model.User;
 &nbsp;import com.alpkonca.rowMatch.payload.NewUserDto;
 &nbsp;import com.alpkonca.rowMatch.payload.ProgressDto;
 &nbsp;import com.alpkonca.rowMatch.repository.UserRepository;
 &nbsp;import com.alpkonca.rowMatch.service.UserService;
+&nbsp;import jakarta.transaction.Transactional;
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;
-&nbsp;import java.util.List;
 &nbsp;
+&nbsp;// Service method for business logic of User
 &nbsp;@Service
 &nbsp;public class UserServiceImpl implements UserService {
-&nbsp;
+&nbsp;    // To provide the user repository and configuration to the service
 &nbsp;    private UserRepository userRepository;
 &nbsp;    private final Configuration configuration;
-&nbsp;
 <b class="fc">&nbsp;    public UserServiceImpl(UserRepository userRepository, Configuration configuration) {</b>
 <b class="fc">&nbsp;        this.userRepository = userRepository;</b>
 <b class="fc">&nbsp;        this.configuration = configuration;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to create a new user
 &nbsp;    @Override
 &nbsp;    public NewUserDto createUser() {
 <b class="fc">&nbsp;        User user = new User();</b>
 <b class="fc">&nbsp;        user.setCoinBalance(configuration.getStartingCoinBalance());</b>
 <b class="fc">&nbsp;        User newUser = userRepository.save(user);</b>
+&nbsp;
+&nbsp;        // Map the user object to the response DTO in order to exclude the teamId field
 <b class="fc">&nbsp;        NewUserDto responseDto = new NewUserDto();</b>
 <b class="fc">&nbsp;        responseDto.setId(newUser.getId());</b>
 <b class="fc">&nbsp;        responseDto.setCoinBalance(newUser.getCoinBalance());</b>
@@ -145,21 +153,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        return responseDto;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to level up the user; check if the user exists; increment the level and add the coin per level to the user&#39;s coin balance
 &nbsp;    @Override
 &nbsp;    public ProgressDto updateLevel(int userId) {
-<b class="fc">&nbsp;        User user = userRepository.findById(userId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;User&quot;, &quot;id&quot;,userId));</b>
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;User&quot;, &quot;id&quot;,userId)); // If the user is not found, throw a ResourceWithFieldNotFoundException, necessary since the findById method returns an Optional object</b>
 <b class="fc">&nbsp;        user.setLevel(user.getLevel()+1);</b>
 <b class="fc">&nbsp;        user.setCoinBalance(user.getCoinBalance()+configuration.getCoinPerLevel());</b>
 <b class="fc">&nbsp;        userRepository.save(user);</b>
+&nbsp;
+&nbsp;        // Map the user object to the response DTO in order to exclude the userId and teamId fields
 <b class="fc">&nbsp;        ProgressDto responseDto = new ProgressDto();</b>
 <b class="fc">&nbsp;        responseDto.setLevel(user.getLevel());</b>
 <b class="fc">&nbsp;        responseDto.setCoinBalance(user.getCoinBalance());</b>
+&nbsp;
 <b class="fc">&nbsp;        return responseDto;</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to check if the user has enough coin balance to perform an action; check if the user exists;
+&nbsp;    // return true if the user has enough coin balance, false otherwise
 &nbsp;    @Override
 &nbsp;    public boolean checkBalance(int userId, int requiredCoinBalance) {
-<b class="fc">&nbsp;        User user = userRepository.findById(userId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;User&quot;, &quot;id&quot;,userId));</b>
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;User&quot;, &quot;id&quot;,userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object</b>
 <b class="fc">&nbsp;        if(user.getCoinBalance() &gt;= requiredCoinBalance){</b>
 <b class="fc">&nbsp;            return true;</b>
 &nbsp;        }
@@ -168,10 +184,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to check if the user is already in a team; check if the user exists; return false if the user is not in a team, true otherwise
 &nbsp;    @Override
 &nbsp;    public boolean isMemberOfTeam(int userId) {
-<b class="fc">&nbsp;        User user = userRepository.findById(userId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;User&quot;, &quot;id&quot;,userId));</b>
-<b class="fc">&nbsp;        if(user.getTeamId() == 0){</b>
+<b class="fc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="fc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;User&quot;, &quot;id&quot;,userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object</b>
+<b class="fc">&nbsp;        if(user.getTeam() == null){</b>
 <b class="fc">&nbsp;            return false;</b>
 &nbsp;        }
 &nbsp;        else {
@@ -179,16 +197,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to set the teamId of the user; check if the user exists; set the teamId of the user
 &nbsp;    @Override
-&nbsp;    public void setTeam(int userId, int teamId) {
-<b class="nc">&nbsp;        User user = userRepository.findById(userId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;User&quot;, &quot;id&quot;,userId));</b>
-<b class="nc">&nbsp;        user.setTeamId(teamId);</b>
+&nbsp;    @Transactional // In case of multiple rapid requests to the server, the data read from the database
+&nbsp;                   // may be outdated and both requests may be processed with the same initial data. This would result in only
+&nbsp;                   // one request&#39;s result being committed and the other&#39;s result being discarded. To prevent this, the
+&nbsp;                   // @Transactional annotation is used to achieve atomicity.
+&nbsp;    public void setTeam(int userId, Team team) {
+<b class="nc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="nc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;User&quot;, &quot;id&quot;,userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object</b>
+&nbsp;
+<b class="nc">&nbsp;        user.setTeam(team);</b>
 <b class="nc">&nbsp;        userRepository.save(user);</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    // Method to deduct coins from the balance of the user; check if the user exists; deduct the amount set in configurations from the user&#39;s coin balance
 &nbsp;    @Override
+&nbsp;    @Transactional // In case of multiple rapid requests to the server, the data read from the database
+&nbsp;                   // may be outdated and both requests may be processed with the same initial data. This would result in only
+&nbsp;                   // one request&#39;s result being committed and the other&#39;s result being discarded. To prevent this, the
+&nbsp;                   // @Transactional annotation is used to achieve atomicity.
 &nbsp;    public void deductFromBalance(int userId, int balanceToDeduct) {
-<b class="nc">&nbsp;        User user = userRepository.findById(userId).orElseThrow(() -&gt; new ResourceWithIdNotFoundException(&quot;User&quot;, &quot;id&quot;,userId));</b>
+<b class="nc">&nbsp;        User user = userRepository.findById(userId)</b>
+<b class="nc">&nbsp;                .orElseThrow(() -&gt; new ResourceWithFieldNotFoundException(&quot;User&quot;, &quot;id&quot;,userId)); // Throw a ResourceWithFieldNotFoundException if the user is not found, necessary since the findById method returns an Optional object</b>
 <b class="nc">&nbsp;        user.setCoinBalance(user.getCoinBalance()-balanceToDeduct);</b>
 <b class="nc">&nbsp;        userRepository.save(user);</b>
 &nbsp;    }
@@ -218,7 +249,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ErrorResponse</title>
+  <title>Coverage Report > CreateTeamDto</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,7 +21,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.payload</a>
 </div>
 
-<h1>Coverage Summary for Class: ErrorResponse (com.alpkonca.rowMatch.payload)</h1>
+<h1>Coverage Summary for Class: CreateTeamDto (com.alpkonca.rowMatch.payload)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ErrorResponse</td>
+  <td class="name">CreateTeamDto</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/6)
+    (3/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/10)
+    (3/3)
   </span>
 </td>
 </tr>
@@ -76,40 +76,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.payload;
 &nbsp;
+&nbsp;import jakarta.validation.constraints.Min;
+&nbsp;import jakarta.validation.constraints.NotBlank;
 &nbsp;import lombok.Data;
 &nbsp;
-&nbsp;import java.util.Date;
+<b class="fc">&nbsp;@Data</b>
+&nbsp;public class CreateTeamDto {
+&nbsp;    @NotBlank(message = &quot;name must be sent and cannot be empty&quot;)
+<b class="fc">&nbsp;    private String name;</b>
 &nbsp;
-<b class="nc">&nbsp;@Data</b>
-&nbsp;public class ErrorResponse {
-&nbsp;    private Date timestamp;
-&nbsp;    private String errorDetails;
-&nbsp;    private String errorCode;
-&nbsp;    private String message;
+&nbsp;    @Min(value = 1, message = &quot;userId must be sent and cannot be empty&quot;)
+<b class="fc">&nbsp;    private int userId;</b>
 &nbsp;
-&nbsp;
-<b class="nc">&nbsp;    public ErrorResponse(Date timestamp, String errorDetails, String errorCode, String message) {</b>
-<b class="nc">&nbsp;        this.timestamp = timestamp;</b>
-<b class="nc">&nbsp;        this.errorDetails = errorDetails;</b>
-<b class="nc">&nbsp;        this.errorCode = errorCode;</b>
-<b class="nc">&nbsp;        this.message = message;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public Date getTimestamp() {
-<b class="nc">&nbsp;        return timestamp;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public String getErrorDetails() {
-<b class="nc">&nbsp;        return errorDetails;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public String getErrorCode() {
-<b class="nc">&nbsp;        return errorCode;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public String getMessage() {
-<b class="nc">&nbsp;        return message;</b>
-&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -134,7 +112,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

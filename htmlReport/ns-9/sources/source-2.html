@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > TeamService</title>
+  <title>Coverage Report > UserService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,16 +21,25 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.alpkonca.rowMatch.service</a>
 </div>
 
-<h1>Coverage Summary for Class: TeamService (com.alpkonca.rowMatch.service)</h1>
+<h1>Coverage Summary for Class: UserService (com.alpkonca.rowMatch.service)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
 </tr>
+  <tr>
+    <td class="name">UserService$MockitoMock$hlKyPbdL</td>
+  </tr>
+  <tr>
+    <td class="name">UserService$MockitoMock$hlKyPbdL$auxiliary$S5er4EQK</td>
+  </tr>
+  <tr>
+    <td class="name">UserService$MockitoMock$hlKyPbdL$auxiliary$SyEtaDNh</td>
+  </tr>
 <tr>
-  <td class="name">TeamService</td>
+  <td class="name"><strong>Total</strong></td>
 </tr>
-
 </table>
 
 <br/>
@@ -41,13 +50,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.alpkonca.rowMatch.service;
 &nbsp;
 &nbsp;import com.alpkonca.rowMatch.model.Team;
+&nbsp;import com.alpkonca.rowMatch.payload.NewUserDto;
+&nbsp;import com.alpkonca.rowMatch.payload.ProgressDto;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;public interface TeamService {
-&nbsp;    Team createTeam(int userId, Team team);
-&nbsp;    Team joinTeam(int userId, int teamId);
-&nbsp;    List&lt;Team&gt; getTeams();
+&nbsp;// User service interface to achieve abstraction and loose coupling
+&nbsp;public interface UserService {
+&nbsp;
+&nbsp;    NewUserDto createUser();
+&nbsp;    ProgressDto updateLevel(int userId);
+&nbsp;    boolean checkBalance(int userId, int requiredCoinBalance);
+&nbsp;    boolean isMemberOfTeam(int userId);
+&nbsp;    void setTeam(int userId, Team team);
+&nbsp;    void deductFromBalance(int userId, int balanceToDeduct);
 &nbsp;
 &nbsp;}
 </code>
@@ -73,7 +89,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-03-09 02:30</div>
+    <div style="float:right;">generated on 2023-03-12 01:45</div>
 </div>
 </body>
 </html>

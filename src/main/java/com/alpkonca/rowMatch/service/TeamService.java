@@ -6,7 +6,7 @@ import java.util.List;
 
 // Team service interface to achieve abstraction and loose coupling
 public interface TeamService {
-    Team createTeam(int userId, Team team);
+    Team createTeam(int userId, String name);
     Team joinTeam(int userId, int teamId);
     List<Team> getTeams();
 
